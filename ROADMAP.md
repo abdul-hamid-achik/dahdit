@@ -89,6 +89,33 @@ Known setup gaps:
 - iOS 26.5 simulator/device support is installed and `task app` builds again.
 - The web scripts use Nuxt/Vitest directly. Vite+ remains pinned, but direct `vp build` is not the stable Nuxt path right now.
 
+## MVP Completion Status
+
+Current status: Dahdit has a working local vertical slice, but it is not a complete MVP yet. The core iOS lesson loop, API auth/progress path, Practice review loop, local smoke tests, simulator UI smoke, and CI are working. The remaining work is mostly product completeness, offline validation, device QA, content depth, and release readiness.
+
+| Area | Status | What is missing |
+| --- | --- | --- |
+| Local dev + CI | Mostly done | Keep CI current with GitHub's Node 24 action runtime change before June 2026 defaults land. |
+| Backend vertical slice | Mostly done | Add typed GraphQL error unions, production rate limiting/CORS, broader anti-cheat and SRS edge-case tests. |
+| iOS auth + lesson loop | Mostly done | Verify signed Keychain behavior on simulator/device, add replay telemetry, and polish error states. |
+| Offline lesson progress | Partial | Run the manual network-off/network-on simulator smoke, add skill/lesson content cache, and add mid-lesson resume UI. |
+| Audio + haptics | Partial | Device/simulator audio quality QA, haptic feedback for send/wrong-answer states, persisted audio settings, and golden audio tests. |
+| Curriculum content | Partial | Expand from the seeded vertical slice to at least one complete beginner skill with multiple lessons. |
+| Practice/SRS | Partial | Add richer review variants, replay tracking, haptics, and overdue-card UX for larger queues. |
+| Web companion | Partial | Add web auth, real API-backed dashboard data, dashboard route protection, and responsive/accessibility QA. |
+| TestFlight readiness | Not done | Signing, Fastlane beta lane, real device archive validation, App Store privacy checks, app icon/assets, and screenshots. |
+| Staging/prod ops | Not done | VPS/staging deploy, production env/secrets, backups, metrics/logging/tracing, runbook drills, and rollback workflow. |
+
+MVP blockers before calling this shippable:
+
+- Manual offline completion smoke: start a lesson online, turn network off, finish, see "Saved for sync", relaunch, restore network, confirm progress syncs once.
+- Audio/haptics pass on at least one real device or current simulator runtime.
+- One complete beginner skill seeded and repeatably validated.
+- Persisted profile/audio settings wired into playback.
+- Web dashboard either finished with auth/data or explicitly scoped out of MVP.
+- Internal TestFlight build produced and installed.
+- Staging API/web environment deployed with non-local secrets.
+
 ## Command Surface
 
 Use the single-word Taskfile commands for daily work:
@@ -482,19 +509,19 @@ cd services/api && bun run typecheck
 
 Highest priority:
 
-1. Verify deeper audio quality and haptics on simulator/device for lesson and Practice flows.
-2. Add replay tracking and haptic feedback to exercise logs, send interactions, and Practice reviews.
-3. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
-4. Expand seed content to one complete beginner skill.
-5. Replace static Profile audio settings with persisted settings.
+1. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
+2. Verify audio quality and haptics on simulator/device for lesson and Practice flows.
+3. Expand seed content to one complete beginner skill.
+4. Replace static Profile audio settings with persisted WPM, Farnsworth WPM, tone Hz, and haptics settings.
+5. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
 
 Second priority:
 
-1. Add real web auth/dashboard data.
-2. Expand seed content to one complete beginner skill.
-3. Add Swift snapshot or UI tests for core lesson screens.
-4. Add golden audio tests.
-5. Add staging deploy scripts.
+1. Add replay tracking and haptic feedback to exercise logs, send interactions, and Practice reviews.
+2. Add Swift snapshot or UI tests for core lesson screens.
+3. Add golden audio tests.
+4. Add staging deploy scripts and production secret documentation.
+5. Update GitHub Actions dependencies for the Node 24 runtime transition.
 
 Deferred:
 
