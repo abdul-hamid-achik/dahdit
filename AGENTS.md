@@ -75,6 +75,7 @@ Known current gaps:
 - Practice has stable UI identifiers and is covered by `task uitest` through a seeded due review card. The test taps one short audio prompt; deeper audio quality and haptic verification still need simulator/device checks.
 - Onboarding, home, lesson shell, all five exercise views, Practice, Leagues, Profile, loading, and error states share the first-pass Morse-game UI.
 - Home HUD, Practice, Leagues, and Profile are API-backed through Apollo-generated operations. Practice has a first playable SRS review flow backed by `dueReviews` and `completeReviews`; richer variants, replay telemetry, and haptic feedback still need work. Profile audio settings are still static display values.
+- Lesson attempts are persisted as SwiftData drafts. Failed `completeLesson` calls move into a pending sync state and retry when the app foregrounds or another lesson starts; the manual network-disconnect simulator smoke is still pending.
 - Root auth validates stored tokens at startup, rotates through `refreshToken` when possible, and clears stale invalid sessions back to onboarding.
 - `task ios` and `task app` run XcodeGen before opening/building. Run `task xcode` after adding Swift files if you are working directly in Xcode.
 - iOS 26.5 simulator/device support is installed locally and `task app` currently builds.
@@ -183,7 +184,7 @@ Follow `ROADMAP.md` for the full plan. Near-term priorities:
 
 1. Verify deeper audio quality and haptics on simulator/device for lesson and Practice flows.
 2. Add replay tracking and haptic feedback to the lesson attempt and Practice review flows.
-3. Add SwiftData attempt drafts and offline `completeLesson` retry.
+3. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 4. Expand seed content to one complete beginner skill.
 5. Replace static Profile audio settings with persisted settings.
 
@@ -231,6 +232,7 @@ Current verified local slice:
 - Apollo custom `JSON` scalar decoding and fractional timestamp parsing are covered by `DahditGraphQL` package tests.
 - `DahditAPI` retries auth failures once after a serialized refresh via `TokenRefreshCoordinator`.
 - The forced expired-access-token retry path is covered with a mocked transport in `DahditGraphQL` tests.
+- Lesson completion logs persist to SwiftData during a lesson, failed `completeLesson` submissions show "Saved for sync", and pending completion drafts retry on app start/foreground.
 - `task smoke` verifies local API auth, token rotation/reuse rejection, lesson completion, SRS due reviews, review completion, leaderboard, account deletion, and deleted-token rejection.
 
 Ask before taking externally visible actions such as TestFlight uploads, production deploys, or account deletion against non-local data.

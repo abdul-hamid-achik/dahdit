@@ -289,7 +289,7 @@ public struct LessonAttempt: Sendable, Equatable, Identifiable {
     public let exercises: [Exercise]
 }
 
-public struct ExerciseResult: Sendable, Equatable {
+public struct ExerciseResult: Sendable, Codable, Equatable {
     public let exerciseId: String
     public let correct: Bool
     public let timeMs: Int

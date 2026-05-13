@@ -3,6 +3,7 @@ import DahditCore
 import DahditGraphQL
 import Foundation
 import Observation
+import SwiftData
 
 @MainActor
 @Observable
@@ -11,6 +12,7 @@ final class LessonViewModel {
         case loading
         case exercise(Exercise)
         case complete(LessonResult?)
+        case pendingSync
         case failed(String)
     }
 
@@ -21,6 +23,7 @@ final class LessonViewModel {
     private(set) var state: State = .loading
     private var exercises: [Exercise] = []
     private var attemptId: String?
+    private var draft: LessonAttemptDraft?
     private var log: [ExerciseResult] = []
     private var index = 0
     var hearts = 5
@@ -42,15 +45,22 @@ final class LessonViewModel {
         self.audio = audio
     }
 
-    func start() async {
+    func start(modelContext: ModelContext) async {
         state = .loading
         do {
+            await LessonAttemptDraftSync.syncPending(in: modelContext, api: api)
             let attempt = try await api.startLesson(id: lessonId)
             attemptId = attempt.id
             exercises = attempt.exercises
             hearts = attempt.maxHearts
             index = 0
             log = []
+            draft = upsertDraft(
+                attemptId: attempt.id,
+                lessonId: attempt.lessonId,
+                modelContext: modelContext
+            )
+            persistDraft(modelContext: modelContext)
             playbackError = nil
             isPlayingPrompt = false
             state = exercises.first.map(State.exercise) ?? .complete(nil)
@@ -72,7 +82,7 @@ final class LessonViewModel {
         }
     }
 
-    func submit(answer: JSONValue) async {
+    func submit(answer: JSONValue, modelContext: ModelContext) async {
         guard case .exercise(let exercise) = state else { return }
         let correct = isCorrect(exercise: exercise, answer: answer)
         let timeMs = 15_000 + index * 777
@@ -85,6 +95,7 @@ final class LessonViewModel {
 
         if !correct { hearts = max(0, hearts - 1) }
         index += 1
+        persistDraft(modelContext: modelContext)
 
         if index >= exercises.count {
             guard let attemptId else {
@@ -93,13 +104,78 @@ final class LessonViewModel {
             }
             do {
                 let result = try await api.completeLesson(attemptId: attemptId, log: log)
+                deleteDraft(modelContext: modelContext)
                 state = .complete(result)
             } catch {
-                state = .failed(error.localizedDescription)
+                markDraftPendingSync(error: error, modelContext: modelContext)
+                state = .pendingSync
             }
         } else {
             state = .exercise(exercises[index])
         }
+    }
+
+    private func upsertDraft(
+        attemptId rawAttemptId: String,
+        lessonId: String,
+        modelContext: ModelContext
+    ) -> LessonAttemptDraft? {
+        guard let attemptUUID = UUID(uuidString: rawAttemptId) else { return nil }
+
+        let descriptor = FetchDescriptor<LessonAttemptDraft>(
+            predicate: #Predicate { $0.attemptId == attemptUUID }
+        )
+        if let existing = try? modelContext.fetch(descriptor).first {
+            existing.lessonId = lessonId
+            existing.currentExerciseIndex = 0
+            existing.pendingCompletion = false
+            existing.lastSyncError = nil
+            existing.updatedAt = Date()
+            return existing
+        }
+
+        let draft = LessonAttemptDraft(attemptId: attemptUUID, lessonId: lessonId)
+        modelContext.insert(draft)
+        return draft
+    }
+
+    private func persistDraft(modelContext: ModelContext) {
+        guard let draft else { return }
+        do {
+            draft.currentExerciseIndex = index
+            draft.logData = try JSONEncoder().encode(log)
+            draft.pendingCompletion = false
+            draft.lastSyncError = nil
+            draft.updatedAt = Date()
+            try modelContext.save()
+        } catch {
+            draft.lastSyncError = error.localizedDescription
+            draft.updatedAt = Date()
+            try? modelContext.save()
+        }
+    }
+
+    private func markDraftPendingSync(error: Error, modelContext: ModelContext) {
+        guard let draft else { return }
+        do {
+            draft.currentExerciseIndex = index
+            draft.logData = try JSONEncoder().encode(log)
+            draft.pendingCompletion = true
+            draft.lastSyncError = error.localizedDescription
+            draft.updatedAt = Date()
+            try modelContext.save()
+        } catch {
+            draft.lastSyncError = error.localizedDescription
+            draft.updatedAt = Date()
+            try? modelContext.save()
+        }
+    }
+
+    private func deleteDraft(modelContext: ModelContext) {
+        guard let draft else { return }
+        modelContext.delete(draft)
+        try? modelContext.save()
+        self.draft = nil
     }
 
     private func isCorrect(exercise: Exercise, answer: JSONValue) -> Bool {

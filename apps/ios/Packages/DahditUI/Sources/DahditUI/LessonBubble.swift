@@ -43,12 +43,15 @@ public struct LessonBubble: View {
                 .foregroundStyle(isUnlocked ? Color.white.opacity(0.70) : Color.white.opacity(0.35))
         }
         .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(RoundedRectangle(cornerRadius: 22))
         .background(isUnlocked ? Color.dahdit.panelRaised : Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 22))
         .overlay {
             RoundedRectangle(cornerRadius: 22)
                 .stroke(isUnlocked ? Color.dahdit.primary.opacity(0.55) : Color.white.opacity(0.08), lineWidth: 1)
         }
         .shadow(color: isUnlocked ? Color.dahdit.primary.opacity(0.20) : .clear, radius: 16, y: 8)
+        .accessibilityElement(children: .ignore)
         .accessibilityLabel(title)
         .accessibilityHint(isUnlocked ? "Starts lesson" : "Locked")
     }

@@ -1,6 +1,6 @@
 # Dahdit Roadmap
 
-Last updated: 2026-05-12
+Last updated: 2026-05-13
 
 This roadmap turns the technical spec into an execution plan for getting Dahdit from the current scaffold to a working MVP. The priority is a real vertical slice first: seeded lesson content, API auth/progress, iOS lesson playback, local persistence, and repeatable verification.
 
@@ -73,6 +73,9 @@ Recent progress:
 - Added a dev-only `/__test/seed-review` API helper for simulator automation. It is disabled in production and lets UI tests seed a due SRS card for the signed-up local user.
 - Added stable Practice accessibility identifiers and expanded `task uitest` again to cover the Practice SRS flow: seed due card, open Practice, play the short review signal, copy `E`, grade it, save with `completeReviews`, and verify the saved state.
 - Added a `DahditGraphQL` package-level forced auth retry test that simulates an expired access token, runs the one-shot refresh handler, retries `me`, and verifies the second request uses the refreshed bearer token.
+- Added first-pass SwiftData lesson attempt drafts: the app persists lesson answer logs, deletes the draft after successful `completeLesson`, and marks failed completions for later sync.
+- Added pending lesson completion retry on lesson start and app foregrounding, plus a "Saved for sync" state when completion cannot reach the API.
+- Stabilized lesson row hit testing by making `LessonBubble` a full-width single accessibility element with an explicit content shape.
 
 Known setup gaps:
 
@@ -82,6 +85,7 @@ Known setup gaps:
 - The unsigned simulator build uses a `DEBUG` UserDefaults fallback if Keychain writes fail. Signed simulator/device/TestFlight builds still need a real Keychain verification pass.
 - All five lesson exercise kinds are covered by `task uitest`, and Practice now has a short simulator audio/playback smoke. Deeper audio quality and haptics still need simulator/device verification.
 - Practice, leaderboard, profile, and Home HUD are API-backed. Practice has a first playable SRS review loop; richer review variants, replay telemetry, and haptic feedback still need to be added. Profile audio settings are still static display rows.
+- Offline `completeLesson` retry is implemented through SwiftData pending drafts and app-start/foreground sync. It still needs a manual network-disconnect simulator smoke before being treated as fully verified.
 - iOS 26.5 simulator/device support is installed and `task app` builds again.
 - The web scripts use Nuxt/Vitest directly. Vite+ remains pinned, but direct `vp build` is not the stable Nuxt path right now.
 
@@ -234,7 +238,7 @@ Work:
 - Replace placeholder Home/Practice/Leagues/Profile read paths with real API calls. Done for `me.stats`, `dueReviews`, and `leaderboard`.
 - Add a playable Practice review session backed by `dueReviews` and `completeReviews`. Done.
 - Add simulator UI coverage for the Practice review session. Done.
-- Store in-flight lesson attempts in SwiftData for crash/offline resume.
+- Store in-flight lesson attempts in SwiftData for crash/offline resume. Done for answer-log persistence and failed `completeLesson` retry; full mid-lesson resume UI still pending.
 
 Acceptance:
 
@@ -300,9 +304,10 @@ Work:
 
 - Cache skill tree and lesson content.
 - Pre-fetch next unlocked lessons.
-- Persist attempt drafts in SwiftData.
-- Queue failed `completeLesson` mutations.
-- Add sync state UI.
+- Persist attempt drafts in SwiftData. Done for lesson answer logs.
+- Queue failed `completeLesson` mutations. Done for pending completion drafts.
+- Add sync state UI. Done with the lesson "Saved for sync" state.
+- Retry pending completion drafts on app start/foreground and before a new lesson starts. Done.
 - Resolve server/client progress conflicts by accepting server authority.
 
 Acceptance:
@@ -310,6 +315,8 @@ Acceptance:
 - Start a lesson online, disable network, finish it, relaunch app, re-enable network, and observe progress sync.
 - Duplicate queued submissions do not double-award XP.
 - User sees clear syncing state without blocking local progress.
+
+Implementation status: first-pass code exists and `task app`/`task uitest` pass, but the manual network-off/network-on simulator smoke is still pending.
 
 ## Phase 6: Web Companion
 
@@ -477,7 +484,7 @@ Highest priority:
 
 1. Verify deeper audio quality and haptics on simulator/device for lesson and Practice flows.
 2. Add replay tracking and haptic feedback to exercise logs, send interactions, and Practice reviews.
-3. Add SwiftData attempt drafts and offline `completeLesson` retry queue.
+3. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 4. Expand seed content to one complete beginner skill.
 5. Replace static Profile audio settings with persisted settings.
 

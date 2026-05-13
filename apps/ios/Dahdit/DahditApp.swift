@@ -81,6 +81,8 @@ private struct RootView: View {
 
 private struct AppTabs: View {
     @Environment(AppEnvironment.self) private var environment
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     let onSignedOut: @MainActor () -> Void
 
     var body: some View {
@@ -108,5 +110,17 @@ private struct AppTabs: View {
         .tint(Color.dahdit.primary)
         .toolbarBackground(Color.dahdit.background.opacity(0.94), for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
+        .task {
+            await syncPendingLessonAttempts()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                Task { await syncPendingLessonAttempts() }
+            }
+        }
+    }
+
+    private func syncPendingLessonAttempts() async {
+        await LessonAttemptDraftSync.syncPending(in: modelContext, api: environment.api)
     }
 }
