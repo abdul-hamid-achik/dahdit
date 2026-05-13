@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "../..",
+    "types": ["bun"],
+    "outDir": "dist"
+  },
+  "include": ["src", "scripts", "tests", "drizzle.config.ts", "../../packages/morse-core/src"]
+}

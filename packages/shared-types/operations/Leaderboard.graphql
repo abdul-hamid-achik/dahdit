@@ -1,0 +1,9 @@
+query Leaderboard($limit: Int) {
+  leaderboard(limit: $limit) {
+    userId
+    username
+    xpTotal
+    streakDays
+    rank
+  }
+}

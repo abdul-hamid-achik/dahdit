@@ -1,0 +1,122 @@
+type AuthPayload {
+  accessToken: String
+  refreshToken: String
+  user: User
+}
+
+type CompleteReviewsResult {
+  completedCount: Int
+  remainingDueCount: Int
+}
+
+scalar DateTime
+
+type Exercise {
+  id: String
+  kind: String
+  lessonId: String
+  payload: JSON
+  position: Int
+}
+
+input ExerciseResultInput {
+  answer: JSON!
+  correct: Boolean!
+  exerciseId: String!
+  timeMs: Int!
+}
+
+scalar JSON
+
+type LeaderboardEntry {
+  rank: Int
+  streakDays: Int
+  userId: String
+  username: String
+  xpTotal: Int
+}
+
+type Lesson {
+  id: String
+  position: Int
+  skillId: String
+  slug: String
+  title: String
+  xpReward: Int
+}
+
+type LessonAttempt {
+  exercises: [Exercise!]
+  id: String
+  lessonId: String
+  maxHearts: Int
+  startedAt: DateTime
+}
+
+type LessonResult {
+  newStreak: Int
+  unlockedLessons: [String!]
+  xpEarned: Int
+}
+
+type Mutation {
+  completeLesson(attemptId: String!, log: [ExerciseResultInput!]!): LessonResult
+  completeReviews(results: [ReviewResultInput!]!): CompleteReviewsResult
+  deleteAccount: Boolean
+  login(email: String!, password: String!): AuthPayload
+  refreshToken(refreshToken: String!): AuthPayload
+  signup(email: String!, password: String!, tz: String = "UTC", username: String!): AuthPayload
+  startLesson(lessonId: String!): LessonAttempt
+}
+
+type Query {
+  dueReviews(limit: Int = 30): [ReviewCard!]
+  leaderboard(limit: Int = 50): [LeaderboardEntry!]
+  lesson(id: String!): Lesson
+  lessonExercises(lessonId: String!): [Exercise!]
+  me: User
+  skillTree: SkillTree
+}
+
+type ReviewCard {
+  cardKey: String
+  dueOn: String
+  ease: Float
+  intervalDays: Int
+}
+
+input ReviewResultInput {
+  cardKey: String!
+  grade: String!
+}
+
+type Skill {
+  description: String
+  id: String
+  position: Int
+  prereqIds: [String!]
+  slug: String
+  title: String
+}
+
+type SkillTree {
+  lessons: [Lesson!]
+  skills: [Skill!]
+  unlockedLessonIds: [String!]
+  unlockedSkillIds: [String!]
+}
+
+type User {
+  email: String
+  id: String
+  stats: UserStats
+  tz: String
+  username: String
+}
+
+type UserStats {
+  hearts: Int
+  heartsRefillAt: DateTime
+  streakDays: Int
+  xpTotal: Int
+}

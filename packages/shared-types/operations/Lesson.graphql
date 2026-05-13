@@ -1,0 +1,24 @@
+mutation StartLesson($lessonId: String!) {
+  startLesson(lessonId: $lessonId) {
+    id
+    lessonId
+    startedAt
+    maxHearts
+    exercises {
+      id
+      lessonId
+      kind
+      position
+      payload
+    }
+  }
+}
+
+mutation CompleteLesson($attemptId: String!, $log: [ExerciseResultInput!]!) {
+  completeLesson(attemptId: $attemptId, log: $log) {
+    xpEarned
+    newStreak
+    unlockedLessons
+  }
+}
+

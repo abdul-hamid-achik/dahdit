@@ -1,0 +1,21 @@
+[
+  {
+    "card": {
+      "userId": "u1",
+      "cardKey": "char:A",
+      "ease": 2.5,
+      "intervalDays": 0,
+      "dueOn": "2026-05-11"
+    },
+    "grade": "good",
+    "today": "2026-05-11T12:00:00.000Z",
+    "expected": {
+      "userId": "u1",
+      "cardKey": "char:A",
+      "ease": 2.5,
+      "intervalDays": 1,
+      "dueOn": "2026-05-12"
+    }
+  }
+]
+

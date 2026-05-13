@@ -1,0 +1,748 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B4EE23F6F2E752F1007237F /* LessonContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0CE21A38EEDF70CA1D2400 /* LessonContainerView.swift */; };
+		13571FD201F76445CA434871 /* ListenAndTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D832B5D7A264F017AE97024B /* ListenAndTypeView.swift */; };
+		1E91AA9EA024EDC4DA88CD53 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3798885D3AB1B5A9AC0BAB20 /* LeaderboardView.swift */; };
+		28744C5C145B1C04267113C2 /* DahditLessonCompletionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D3F2BFDE8D86017E3FCA2 /* DahditLessonCompletionUITests.swift */; };
+		2F42D96E1A0393E6AD6F930C /* DahditCore in Frameworks */ = {isa = PBXBuildFile; productRef = A0F45332E01B93A54B34FB4E /* DahditCore */; };
+		3D5A353FC7833AA70F0AF5E1 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2412CC4D7FA0816C6FF3EF1F /* OnboardingView.swift */; };
+		5455644B160D3B1F2087C31E /* KeychainTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E651E45DEAEDF32880BF6D40 /* KeychainTokenStore.swift */; };
+		5543BA9E02E6383AC5E81622 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34919CE8061075CCF25C77D6 /* ExerciseCard.swift */; };
+		560F92C88047FDF596513A43 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BFB8C23FA81023CA7E0B29 /* Secrets.swift */; };
+		7AA8130FE396096CAB969014 /* DahditApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2603213587BE50813441065 /* DahditApp.swift */; };
+		86090A08586BB58E7B5D0F6F /* DahditAudio in Frameworks */ = {isa = PBXBuildFile; productRef = ACAF9A619DA02C05C90E1AB7 /* DahditAudio */; };
+		929325D78F193AFA1DA6B7FA /* TapTheCodeExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D8E0F080D511A33AE2DAC /* TapTheCodeExerciseView.swift */; };
+		933E3C0FFC8125CD97110B77 /* DahditSignupSmokeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1513EFC09D2F6816826778 /* DahditSignupSmokeUITests.swift */; };
+		9CEC68B194EAAD01181422E2 /* ResultBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED46BDDE78F1B73ABA715E /* ResultBanner.swift */; };
+		B25984B6076479F1179C2123 /* LessonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B760F0E4025AC196F9D6578 /* LessonViewModel.swift */; };
+		B40BFEE068CC06C1DD41B844 /* DahditUI in Frameworks */ = {isa = PBXBuildFile; productRef = 21131B0011340E52692E5D95 /* DahditUI */; };
+		B548117D3EB8EF0FFD745063 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C8040822F5FB634C194356 /* AppEnvironment.swift */; };
+		BD9C613EC4A5886F52588128 /* TranslateToMorseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855BB9150F603B17CCE130D3 /* TranslateToMorseView.swift */; };
+		C2C0309EF54D02BACB7C4A4A /* SkillTreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3BCF9D7B0EAAB6A3DA1FB /* SkillTreeViewModel.swift */; };
+		D12E632EEE42EDC956127F68 /* CopyAtSpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF61FFF9CB1F49822E9661C0 /* CopyAtSpeedView.swift */; };
+		D64D54747433DDB7075B0FEC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EC6754FD91660C43D8EBDB /* ProfileView.swift */; };
+		E3A11B2E08B32347EBF02535 /* DahditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E340971B98B6A32CD7688F /* DahditTests.swift */; };
+		E56C4F13A33DDAF2FADBCF52 /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD680F2F3DFC928250A4A7B /* PracticeView.swift */; };
+		F07732F8DD5F2C8FA7300BCE /* SkillTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FE6DA6AD2445AF0F43AA7B /* SkillTreeView.swift */; };
+		F7BFAF961D47CD4B21F8802D /* LessonAttemptDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5127C4460FEE5CD63AFEC559 /* LessonAttemptDraft.swift */; };
+		F8EC87912C084DE67DE2864C /* DahditPracticeReviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FD1F67A4F2C3BC447F576D /* DahditPracticeReviewUITests.swift */; };
+		F9913D1C2911595E22254979 /* MultipleChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1293B10B1ED0C96AA5C39068 /* MultipleChoiceView.swift */; };
+		FC2EA75088724FCF0B62D535 /* DahditGraphQL in Frameworks */ = {isa = PBXBuildFile; productRef = E432B0961819CC2C1A5E005B /* DahditGraphQL */; };
+		FE9427C6BA876C45C4238857 /* TokenRefreshCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E97174F9501F1673D9978 /* TokenRefreshCoordinator.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		91B54E66D67F76630EB0E758 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E83FD02D8C810E475BF3B62F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A06FBF777A6B3DA46F942184;
+			remoteInfo = Dahdit;
+		};
+		EEB8FC6DE5BB636640EA58D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E83FD02D8C810E475BF3B62F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A06FBF777A6B3DA46F942184;
+			remoteInfo = Dahdit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03EE4B5F18A4AFD16CE3A73E /* DahditGraphQL */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DahditGraphQL; path = Packages/DahditGraphQL; sourceTree = SOURCE_ROOT; };
+		0B760F0E4025AC196F9D6578 /* LessonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonViewModel.swift; sourceTree = "<group>"; };
+		0CD680F2F3DFC928250A4A7B /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
+		1293B10B1ED0C96AA5C39068 /* MultipleChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceView.swift; sourceTree = "<group>"; };
+		2412CC4D7FA0816C6FF3EF1F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		25194E6C8A89AD7B3C76C5F2 /* DahditAudio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DahditAudio; path = Packages/DahditAudio; sourceTree = SOURCE_ROOT; };
+		2E2D3F2BFDE8D86017E3FCA2 /* DahditLessonCompletionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DahditLessonCompletionUITests.swift; sourceTree = "<group>"; };
+		34919CE8061075CCF25C77D6 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
+		3798885D3AB1B5A9AC0BAB20 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		47EC6754FD91660C43D8EBDB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		5127C4460FEE5CD63AFEC559 /* LessonAttemptDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonAttemptDraft.swift; sourceTree = "<group>"; };
+		68BFB8C23FA81023CA7E0B29 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		6A5E97174F9501F1673D9978 /* TokenRefreshCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshCoordinator.swift; sourceTree = "<group>"; };
+		7222E773F4A08293C346F278 /* DahditUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DahditUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		73C3BCF9D7B0EAAB6A3DA1FB /* SkillTreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillTreeViewModel.swift; sourceTree = "<group>"; };
+		76FE6DA6AD2445AF0F43AA7B /* SkillTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillTreeView.swift; sourceTree = "<group>"; };
+		79E340971B98B6A32CD7688F /* DahditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DahditTests.swift; sourceTree = "<group>"; };
+		855BB9150F603B17CCE130D3 /* TranslateToMorseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateToMorseView.swift; sourceTree = "<group>"; };
+		85FD1F67A4F2C3BC447F576D /* DahditPracticeReviewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DahditPracticeReviewUITests.swift; sourceTree = "<group>"; };
+		9E1D8E0F080D511A33AE2DAC /* TapTheCodeExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapTheCodeExerciseView.swift; sourceTree = "<group>"; };
+		A2603213587BE50813441065 /* DahditApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DahditApp.swift; sourceTree = "<group>"; };
+		AF61FFF9CB1F49822E9661C0 /* CopyAtSpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyAtSpeedView.swift; sourceTree = "<group>"; };
+		B1FAF921E854D6596B57CB84 /* DahditTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DahditTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8383A1EA30CB30A73153685 /* Dahdit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Dahdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B924FBE88A8B5D232959419B /* DahditCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DahditCore; path = Packages/DahditCore; sourceTree = SOURCE_ROOT; };
+		C8494DA96BF92F891580535B /* DahditUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DahditUI; path = Packages/DahditUI; sourceTree = SOURCE_ROOT; };
+		D832B5D7A264F017AE97024B /* ListenAndTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenAndTypeView.swift; sourceTree = "<group>"; };
+		DB0CE21A38EEDF70CA1D2400 /* LessonContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonContainerView.swift; sourceTree = "<group>"; };
+		E651E45DEAEDF32880BF6D40 /* KeychainTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTokenStore.swift; sourceTree = "<group>"; };
+		EB1513EFC09D2F6816826778 /* DahditSignupSmokeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DahditSignupSmokeUITests.swift; sourceTree = "<group>"; };
+		F3ED46BDDE78F1B73ABA715E /* ResultBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultBanner.swift; sourceTree = "<group>"; };
+		F8C8040822F5FB634C194356 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		73BB1762B1667FC60A83BFEB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F42D96E1A0393E6AD6F930C /* DahditCore in Frameworks */,
+				86090A08586BB58E7B5D0F6F /* DahditAudio in Frameworks */,
+				FC2EA75088724FCF0B62D535 /* DahditGraphQL in Frameworks */,
+				B40BFEE068CC06C1DD41B844 /* DahditUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		090033BAA49EA7A7E1731068 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B8383A1EA30CB30A73153685 /* Dahdit.app */,
+				B1FAF921E854D6596B57CB84 /* DahditTests.xctest */,
+				7222E773F4A08293C346F278 /* DahditUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16904EFB33B41D09D4A8794F /* Exercises */ = {
+			isa = PBXGroup;
+			children = (
+				AF61FFF9CB1F49822E9661C0 /* CopyAtSpeedView.swift */,
+				D832B5D7A264F017AE97024B /* ListenAndTypeView.swift */,
+				1293B10B1ED0C96AA5C39068 /* MultipleChoiceView.swift */,
+				9E1D8E0F080D511A33AE2DAC /* TapTheCodeExerciseView.swift */,
+				855BB9150F603B17CCE130D3 /* TranslateToMorseView.swift */,
+			);
+			path = Exercises;
+			sourceTree = "<group>";
+		};
+		2A669C909873923FFBEC5F06 /* Dahdit */ = {
+			isa = PBXGroup;
+			children = (
+				A2603213587BE50813441065 /* DahditApp.swift */,
+				7B906DC254A9C8AC74514754 /* Environment */,
+				AAD555FCACAB378A9C897A1E /* Features */,
+			);
+			path = Dahdit;
+			sourceTree = "<group>";
+		};
+		35ABD7F17E3E34284C7CC067 /* Lesson */ = {
+			isa = PBXGroup;
+			children = (
+				5127C4460FEE5CD63AFEC559 /* LessonAttemptDraft.swift */,
+				DB0CE21A38EEDF70CA1D2400 /* LessonContainerView.swift */,
+				0B760F0E4025AC196F9D6578 /* LessonViewModel.swift */,
+				89759688241A51E385FD742C /* Components */,
+				16904EFB33B41D09D4A8794F /* Exercises */,
+			);
+			path = Lesson;
+			sourceTree = "<group>";
+		};
+		3EDB510DF8D6FBF563C86B32 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				76FE6DA6AD2445AF0F43AA7B /* SkillTreeView.swift */,
+				73C3BCF9D7B0EAAB6A3DA1FB /* SkillTreeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		6DF9A18B6D3819F5729A2569 /* DahditTests */ = {
+			isa = PBXGroup;
+			children = (
+				79E340971B98B6A32CD7688F /* DahditTests.swift */,
+			);
+			path = DahditTests;
+			sourceTree = "<group>";
+		};
+		77F7A029ED92FABD2FC89161 /* Practice */ = {
+			isa = PBXGroup;
+			children = (
+				0CD680F2F3DFC928250A4A7B /* PracticeView.swift */,
+			);
+			path = Practice;
+			sourceTree = "<group>";
+		};
+		7B3FDBD05F2D6E685958BE7D /* Leaderboard */ = {
+			isa = PBXGroup;
+			children = (
+				3798885D3AB1B5A9AC0BAB20 /* LeaderboardView.swift */,
+			);
+			path = Leaderboard;
+			sourceTree = "<group>";
+		};
+		7B906DC254A9C8AC74514754 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				F8C8040822F5FB634C194356 /* AppEnvironment.swift */,
+				E651E45DEAEDF32880BF6D40 /* KeychainTokenStore.swift */,
+				68BFB8C23FA81023CA7E0B29 /* Secrets.swift */,
+				6A5E97174F9501F1673D9978 /* TokenRefreshCoordinator.swift */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
+		8574EA25CBE59983F33F97BF /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				25194E6C8A89AD7B3C76C5F2 /* DahditAudio */,
+				B924FBE88A8B5D232959419B /* DahditCore */,
+				03EE4B5F18A4AFD16CE3A73E /* DahditGraphQL */,
+				C8494DA96BF92F891580535B /* DahditUI */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		87DECD53C27769F8C2BE3BE2 = {
+			isa = PBXGroup;
+			children = (
+				2A669C909873923FFBEC5F06 /* Dahdit */,
+				6DF9A18B6D3819F5729A2569 /* DahditTests */,
+				E14864FCE9086AAC88BF90B0 /* DahditUITests */,
+				8574EA25CBE59983F33F97BF /* Packages */,
+				090033BAA49EA7A7E1731068 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		89759688241A51E385FD742C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				34919CE8061075CCF25C77D6 /* ExerciseCard.swift */,
+				F3ED46BDDE78F1B73ABA715E /* ResultBanner.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		AAD555FCACAB378A9C897A1E /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				3EDB510DF8D6FBF563C86B32 /* Home */,
+				7B3FDBD05F2D6E685958BE7D /* Leaderboard */,
+				35ABD7F17E3E34284C7CC067 /* Lesson */,
+				D6192AC989C0F32106BE2143 /* Onboarding */,
+				77F7A029ED92FABD2FC89161 /* Practice */,
+				BC3B8E2E3326BFFBA6D1AF6A /* Profile */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		BC3B8E2E3326BFFBA6D1AF6A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				47EC6754FD91660C43D8EBDB /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		D6192AC989C0F32106BE2143 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2412CC4D7FA0816C6FF3EF1F /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E14864FCE9086AAC88BF90B0 /* DahditUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2E2D3F2BFDE8D86017E3FCA2 /* DahditLessonCompletionUITests.swift */,
+				85FD1F67A4F2C3BC447F576D /* DahditPracticeReviewUITests.swift */,
+				EB1513EFC09D2F6816826778 /* DahditSignupSmokeUITests.swift */,
+			);
+			path = DahditUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7A2BE3216E78AA813E2D8698 /* DahditUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5584E57FB4AC77CB1BEB3931 /* Build configuration list for PBXNativeTarget "DahditUITests" */;
+			buildPhases = (
+				6E9D3ABF23B6FFE80C4FAFF1 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6C30AB8D2217C49251844485 /* PBXTargetDependency */,
+			);
+			name = DahditUITests;
+			packageProductDependencies = (
+			);
+			productName = DahditUITests;
+			productReference = 7222E773F4A08293C346F278 /* DahditUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		A06FBF777A6B3DA46F942184 /* Dahdit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC3D9E5D682822DE51AC4E4D /* Build configuration list for PBXNativeTarget "Dahdit" */;
+			buildPhases = (
+				46DCC1C640CA604563A10400 /* Sources */,
+				73BB1762B1667FC60A83BFEB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dahdit;
+			packageProductDependencies = (
+				A0F45332E01B93A54B34FB4E /* DahditCore */,
+				ACAF9A619DA02C05C90E1AB7 /* DahditAudio */,
+				E432B0961819CC2C1A5E005B /* DahditGraphQL */,
+				21131B0011340E52692E5D95 /* DahditUI */,
+			);
+			productName = Dahdit;
+			productReference = B8383A1EA30CB30A73153685 /* Dahdit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D886C7DE9111F849398248D2 /* DahditTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33E24F636AAEA20C4FD59E28 /* Build configuration list for PBXNativeTarget "DahditTests" */;
+			buildPhases = (
+				318BFBCA7466111B7CC96D19 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1A36860EBFE864F67F413A2 /* PBXTargetDependency */,
+			);
+			name = DahditTests;
+			packageProductDependencies = (
+			);
+			productName = DahditTests;
+			productReference = B1FAF921E854D6596B57CB84 /* DahditTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E83FD02D8C810E475BF3B62F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					7A2BE3216E78AA813E2D8698 = {
+						DevelopmentTeam = "";
+						TestTargetID = A06FBF777A6B3DA46F942184;
+					};
+					A06FBF777A6B3DA46F942184 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					D886C7DE9111F849398248D2 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = 207DDB3CCFC17C15C13251D9 /* Build configuration list for PBXProject "Dahdit" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 87DECD53C27769F8C2BE3BE2;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				998C2A7F21A134DA3BEC459B /* XCLocalSwiftPackageReference "Packages/DahditAudio" */,
+				4B6D131225660178DF098776 /* XCLocalSwiftPackageReference "Packages/DahditCore" */,
+				C36311446DA7C8D677C302F4 /* XCLocalSwiftPackageReference "Packages/DahditGraphQL" */,
+				12499AFB90B311B4D01EFEBA /* XCLocalSwiftPackageReference "Packages/DahditUI" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 090033BAA49EA7A7E1731068 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A06FBF777A6B3DA46F942184 /* Dahdit */,
+				D886C7DE9111F849398248D2 /* DahditTests */,
+				7A2BE3216E78AA813E2D8698 /* DahditUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		318BFBCA7466111B7CC96D19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A11B2E08B32347EBF02535 /* DahditTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46DCC1C640CA604563A10400 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B548117D3EB8EF0FFD745063 /* AppEnvironment.swift in Sources */,
+				D12E632EEE42EDC956127F68 /* CopyAtSpeedView.swift in Sources */,
+				7AA8130FE396096CAB969014 /* DahditApp.swift in Sources */,
+				5543BA9E02E6383AC5E81622 /* ExerciseCard.swift in Sources */,
+				5455644B160D3B1F2087C31E /* KeychainTokenStore.swift in Sources */,
+				1E91AA9EA024EDC4DA88CD53 /* LeaderboardView.swift in Sources */,
+				F7BFAF961D47CD4B21F8802D /* LessonAttemptDraft.swift in Sources */,
+				0B4EE23F6F2E752F1007237F /* LessonContainerView.swift in Sources */,
+				B25984B6076479F1179C2123 /* LessonViewModel.swift in Sources */,
+				13571FD201F76445CA434871 /* ListenAndTypeView.swift in Sources */,
+				F9913D1C2911595E22254979 /* MultipleChoiceView.swift in Sources */,
+				3D5A353FC7833AA70F0AF5E1 /* OnboardingView.swift in Sources */,
+				E56C4F13A33DDAF2FADBCF52 /* PracticeView.swift in Sources */,
+				D64D54747433DDB7075B0FEC /* ProfileView.swift in Sources */,
+				9CEC68B194EAAD01181422E2 /* ResultBanner.swift in Sources */,
+				560F92C88047FDF596513A43 /* Secrets.swift in Sources */,
+				F07732F8DD5F2C8FA7300BCE /* SkillTreeView.swift in Sources */,
+				C2C0309EF54D02BACB7C4A4A /* SkillTreeViewModel.swift in Sources */,
+				929325D78F193AFA1DA6B7FA /* TapTheCodeExerciseView.swift in Sources */,
+				FE9427C6BA876C45C4238857 /* TokenRefreshCoordinator.swift in Sources */,
+				BD9C613EC4A5886F52588128 /* TranslateToMorseView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E9D3ABF23B6FFE80C4FAFF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28744C5C145B1C04267113C2 /* DahditLessonCompletionUITests.swift in Sources */,
+				F8EC87912C084DE67DE2864C /* DahditPracticeReviewUITests.swift in Sources */,
+				933E3C0FFC8125CD97110B77 /* DahditSignupSmokeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6C30AB8D2217C49251844485 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A06FBF777A6B3DA46F942184 /* Dahdit */;
+			targetProxy = 91B54E66D67F76630EB0E758 /* PBXContainerItemProxy */;
+		};
+		A1A36860EBFE864F67F413A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A06FBF777A6B3DA46F942184 /* Dahdit */;
+			targetProxy = EEB8FC6DE5BB636640EA58D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5CABCD18C8965FDC591E920C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		63F61529CC11FFC68E8F2539 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Dahdit/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.dahdit.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6C97868094BFB198D38505AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.dahdit.DahditUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Dahdit;
+			};
+			name = Release;
+		};
+		9BF9D3DA5D36A062C76DDDEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.dahdit.DahditTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dahdit.app/Dahdit";
+			};
+			name = Release;
+		};
+		BCB855FBA54593EA309DC564 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		E6FEE09CAB1BD933B78ABC6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.dahdit.DahditUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Dahdit;
+			};
+			name = Debug;
+		};
+		EC4FFB311379E1F28D7620AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.dahdit.DahditTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dahdit.app/Dahdit";
+			};
+			name = Debug;
+		};
+		F34299627CC08D507F160035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Dahdit/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.dahdit.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		207DDB3CCFC17C15C13251D9 /* Build configuration list for PBXProject "Dahdit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB855FBA54593EA309DC564 /* Debug */,
+				5CABCD18C8965FDC591E920C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		33E24F636AAEA20C4FD59E28 /* Build configuration list for PBXNativeTarget "DahditTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC4FFB311379E1F28D7620AA /* Debug */,
+				9BF9D3DA5D36A062C76DDDEB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5584E57FB4AC77CB1BEB3931 /* Build configuration list for PBXNativeTarget "DahditUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6FEE09CAB1BD933B78ABC6D /* Debug */,
+				6C97868094BFB198D38505AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AC3D9E5D682822DE51AC4E4D /* Build configuration list for PBXNativeTarget "Dahdit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63F61529CC11FFC68E8F2539 /* Debug */,
+				F34299627CC08D507F160035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		12499AFB90B311B4D01EFEBA /* XCLocalSwiftPackageReference "Packages/DahditUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DahditUI;
+		};
+		4B6D131225660178DF098776 /* XCLocalSwiftPackageReference "Packages/DahditCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DahditCore;
+		};
+		998C2A7F21A134DA3BEC459B /* XCLocalSwiftPackageReference "Packages/DahditAudio" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DahditAudio;
+		};
+		C36311446DA7C8D677C302F4 /* XCLocalSwiftPackageReference "Packages/DahditGraphQL" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DahditGraphQL;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		21131B0011340E52692E5D95 /* DahditUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DahditUI;
+		};
+		A0F45332E01B93A54B34FB4E /* DahditCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DahditCore;
+		};
+		ACAF9A619DA02C05C90E1AB7 /* DahditAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DahditAudio;
+		};
+		E432B0961819CC2C1A5E005B /* DahditGraphQL */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DahditGraphQL;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = E83FD02D8C810E475BF3B62F /* Project object */;
+}

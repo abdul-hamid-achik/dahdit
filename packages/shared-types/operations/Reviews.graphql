@@ -1,0 +1,15 @@
+query DueReviews($limit: Int) {
+  dueReviews(limit: $limit) {
+    cardKey
+    ease
+    intervalDays
+    dueOn
+  }
+}
+
+mutation CompleteReviews($results: [ReviewResultInput!]!) {
+  completeReviews(results: $results) {
+    completedCount
+    remainingDueCount
+  }
+}

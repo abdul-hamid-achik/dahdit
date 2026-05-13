@@ -1,0 +1,57 @@
+services:
+  postgres:
+    build:
+      context: ./infra/postgres
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: dahdit
+      POSTGRES_PASSWORD: dahdit
+      POSTGRES_DB: dahdit
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_cron
+      - -c
+      - cron.database_name=dahdit
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dahdit -d dahdit"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://dahdit:dahdit@postgres:5432/dahdit
+      JWT_SECRET: dev-only-jwt-secret-min-32-chars-long-x
+      API_PORT: 4000
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+    develop:
+      watch:
+        - path: ./services/api/src
+          action: sync
+          target: /app/src
+        - path: ./packages/morse-core/src
+          action: sync
+          target: /app/packages/morse-core/src
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  pgdata:

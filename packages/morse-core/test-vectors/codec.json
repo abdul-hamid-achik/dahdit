@@ -1,0 +1,38 @@
+[
+  {
+    "text": "SOS",
+    "symbols": ["dit", "dit", "dit", "charGap", "dah", "dah", "dah", "charGap", "dit", "dit", "dit"],
+    "decoded": "SOS"
+  },
+  {
+    "text": "CQ DE A1",
+    "symbols": [
+      "dah",
+      "dit",
+      "dah",
+      "dit",
+      "charGap",
+      "dah",
+      "dah",
+      "dit",
+      "dah",
+      "wordGap",
+      "dah",
+      "dit",
+      "dit",
+      "charGap",
+      "dit",
+      "wordGap",
+      "dit",
+      "dah",
+      "charGap",
+      "dit",
+      "dah",
+      "dah",
+      "dah",
+      "dah"
+    ],
+    "decoded": "CQ DE A1"
+  }
+]
+

@@ -1,0 +1,37 @@
+{
+  "name": "@dahdit/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "start": "bun src/index.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "seed": "bun scripts/seed.ts",
+    "smoke": "bun scripts/smoke.ts"
+  },
+  "dependencies": {
+    "@dahdit/morse-core": "workspace:*",
+    "@hono/node-server": "latest",
+    "@pothos/core": "latest",
+    "@pothos/plugin-errors": "latest",
+    "@pothos/plugin-relay": "latest",
+    "@pothos/plugin-scope-auth": "latest",
+    "drizzle-orm": "latest",
+    "graphql": "latest",
+    "graphql-yoga": "latest",
+    "hono": "latest",
+    "pino": "latest",
+    "postgres": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "latest",
+    "drizzle-kit": "latest",
+    "typescript": "latest"
+  }
+}

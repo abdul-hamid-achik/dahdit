@@ -1,0 +1,39 @@
+[
+  {
+    "card": {
+      "userId": "u1",
+      "cardKey": "char:A",
+      "ease": 2.5,
+      "intervalDays": 0,
+      "dueOn": "2026-05-11"
+    },
+    "grade": "good",
+    "today": "2026-05-11T12:00:00.000Z",
+    "expected": {
+      "userId": "u1",
+      "cardKey": "char:A",
+      "ease": 2.5,
+      "intervalDays": 1,
+      "dueOn": "2026-05-12"
+    }
+  },
+  {
+    "card": {
+      "userId": "u1",
+      "cardKey": "word:CQ",
+      "ease": 2.2,
+      "intervalDays": 5,
+      "dueOn": "2026-05-11"
+    },
+    "grade": "again",
+    "today": "2026-05-11T12:00:00.000Z",
+    "expected": {
+      "userId": "u1",
+      "cardKey": "word:CQ",
+      "ease": 2,
+      "intervalDays": 1,
+      "dueOn": "2026-05-12"
+    }
+  }
+]
+

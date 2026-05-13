@@ -1,0 +1,24 @@
+{
+  "name": "dahdit",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/web",
+    "services/api",
+    "packages/*"
+  ],
+  "scripts": {
+    "check": "vp check",
+    "test": "vp test && bun --cwd services/api test",
+    "build": "vp build",
+    "codegen:schema": "bun services/api/scripts/print-schema.ts",
+    "codegen:web": "bun --cwd packages/shared-types codegen",
+    "fmt": "vp fmt"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest",
+    "vite-plus": "0.1.21-alpha.5"
+  },
+  "packageManager": "bun@1.3.11"
+}

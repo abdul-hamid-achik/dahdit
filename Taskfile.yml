@@ -1,0 +1,184 @@
+version: "3"
+
+vars:
+  API_URL: http://localhost:4000/graphql
+  DATABASE_URL: postgres://dahdit:dahdit@localhost:5432/dahdit
+  JWT_SECRET: dev-only-jwt-secret-min-32-chars-long-x
+
+tasks:
+  setup:
+    desc: One-time setup
+    cmds:
+      - bun install --frozen-lockfile
+      - docker compose up -d postgres
+      - task: migrate
+      - task: seed
+
+  dev:
+    desc: Bring up local infra, API, codegen, and web dev server
+    cmds:
+      - docker compose up -d
+      - task: codegen
+      - cd apps/web && bun run dev
+
+  ios:
+    desc: Open the iOS app in Xcode
+    cmds:
+      - task: xcode
+      - task: swiftgen
+      - open apps/ios/Dahdit.xcodeproj
+
+  xcode:
+    desc: Regenerate the Xcode project from XcodeGen
+    dir: apps/ios
+    cmds:
+      - xcodegen generate --spec project.yml
+
+  codegen:
+    desc: Regenerate GraphQL schema and client types
+    cmds:
+      - task: schema
+      - task: types
+      - task: swiftgen
+
+  schema:
+    desc: Print Pothos schema to SDL
+    dir: services/api
+    cmds:
+      - bun run scripts/print-schema.ts
+
+  types:
+    desc: Generate TypeScript GraphQL types
+    dir: packages/shared-types
+    cmds:
+      - bun run codegen
+
+  swiftgen:
+    desc: Generate Apollo iOS operation models
+    dir: apps/ios
+    cmds:
+      - test -x ./apollo-ios-cli || (cd Packages/DahditGraphQL && swift package --allow-writing-to-package-directory --allow-network-connections all apollo-cli-install && cp apollo-ios-cli ../../apollo-ios-cli)
+      - ./apollo-ios-cli generate
+
+  migration:
+    desc: Generate Drizzle migrations
+    dir: services/api
+    cmds:
+      - bunx drizzle-kit generate
+
+  migrate:
+    desc: Apply Drizzle migrations
+    dir: services/api
+    env:
+      DATABASE_URL: "{{.DATABASE_URL}}"
+    cmds:
+      - bunx drizzle-kit migrate
+
+  seed:
+    desc: Seed local curriculum data
+    dir: services/api
+    env:
+      DATABASE_URL: "{{.DATABASE_URL}}"
+      JWT_SECRET: "{{.JWT_SECRET}}"
+    cmds:
+      - bun run scripts/seed.ts
+
+  smoke:
+    desc: Run local API smoke test
+    dir: services/api
+    env:
+      API_URL: "{{.API_URL}}"
+      DATABASE_URL: "{{.DATABASE_URL}}"
+    cmds:
+      - bun run scripts/smoke.ts
+
+  check:
+    desc: Lint, format, and typecheck
+    cmds:
+      - cd apps/web && bun run check
+      - cd services/api && bun run typecheck
+
+  fmt:
+    cmds:
+      - vp fmt
+
+  test:
+    desc: Run JS/TS and Swift tests
+    cmds:
+      - cd packages/morse-core && bun test
+      - cd apps/web && bun test
+      - cd services/api && bun test
+      - cd apps/ios/Packages/DahditCore && swift test
+      - cd apps/ios/Packages/DahditGraphQL && swift test
+
+  build:
+    desc: Build web and iOS app
+    cmds:
+      - task: site
+      - task: app
+
+  site:
+    desc: Build Nuxt web app
+    dir: apps/web
+    cmds:
+      - bun run build
+
+  app:
+    desc: Build iOS app without signing
+    dir: apps/ios
+    cmds:
+      - xcodegen generate --spec project.yml
+      - xcodebuild -scheme Dahdit-Prod -configuration Release -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
+
+  uitest:
+    desc: Run iOS UI smoke tests on a simulator
+    dir: apps/ios
+    cmds:
+      - xcodegen generate --spec project.yml
+      - xcodebuild -scheme Dahdit-Dev -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.5' -only-testing:DahditUITests test
+
+  deploy:
+    desc: Deploy web app
+    dir: apps/web
+    cmds:
+      - vp run void deploy
+
+  codegen:schema:
+    cmds:
+      - task: schema
+
+  codegen:web:
+    cmds:
+      - task: types
+
+  codegen:ios:
+    cmds:
+      - task: swiftgen
+
+  ios:project:
+    cmds:
+      - task: xcode
+
+  db:generate:
+    cmds:
+      - task: migration
+
+  db:migrate:
+    cmds:
+      - task: migrate
+
+  db:seed:
+    cmds:
+      - task: seed
+
+  build:web:
+    cmds:
+      - task: site
+
+  build:ios:
+    cmds:
+      - task: app
+
+  deploy:web:
+    cmds:
+      - task: deploy

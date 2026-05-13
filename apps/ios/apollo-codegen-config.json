@@ -1,0 +1,18 @@
+{
+  "schemaNamespace": "DahditGraphQLGenerated",
+  "input": {
+    "operationSearchPaths": ["../../packages/shared-types/operations/**/*.graphql"],
+    "schemaSearchPaths": ["schema.graphqls"]
+  },
+  "output": {
+    "testMocks": { "none": {} },
+    "schemaTypes": {
+      "path": "./Packages/DahditGraphQL/Sources/DahditGraphQL/Generated",
+      "moduleType": { "embeddedInTarget": { "name": "DahditGraphQL" } }
+    },
+    "operations": { "inSchemaModule": {} }
+  },
+  "options": {
+    "queryStringLiteralFormat": "multiline"
+  }
+}

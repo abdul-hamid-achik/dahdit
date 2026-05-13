@@ -1,0 +1,23 @@
+query SkillTree {
+  skillTree {
+    unlockedSkillIds
+    unlockedLessonIds
+    skills {
+      id
+      slug
+      title
+      description
+      position
+      prereqIds
+    }
+    lessons {
+      id
+      skillId
+      slug
+      title
+      position
+      xpReward
+    }
+  }
+}
+
