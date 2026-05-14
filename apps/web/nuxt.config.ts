@@ -18,6 +18,9 @@ export default defineNuxtConfig({
     preset: 'cloudflare_module',
   },
   vite: {
+    optimizeDeps: {
+      include: ['zod'],
+    },
     plugins: voidModule?.voidPlugin ? [voidModule.voidPlugin()] : [],
   },
   typescript: {
