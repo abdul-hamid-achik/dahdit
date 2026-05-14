@@ -37,8 +37,9 @@ The API validates required environment variables at startup through `services/ap
 Local:
 
 - `DATABASE_URL=postgres://dahdit:dahdit@localhost:5432/dahdit` for host-run scripts.
+- `POSTGRES_PORT=5432` by default. Use `POSTGRES_PORT=5433` when another local Postgres already owns host port `5432`.
 - `JWT_SECRET=dev-only-jwt-secret-min-32-chars-long-x` is only acceptable for local development.
-- `CORS_ORIGINS=http://localhost:3000,http://localhost:3001`.
+- `CORS_ORIGINS=http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001`.
 
 Staging and production:
 

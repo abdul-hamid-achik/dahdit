@@ -8,7 +8,7 @@ Dahdit is a Duolingo-style Morse code learning app. The MVP has three main surfa
 
 - `apps/ios`: native iOS app, Swift 6, SwiftUI, local SPM packages.
 - `services/api`: Bun API, Hono, GraphQL Yoga, Pothos, Drizzle, Postgres.
-- `apps/web`: Nuxt companion app for marketing, dashboard, and public demos.
+- `apps/web`: Nuxt companion app for marketing, API-backed dashboard, and public demos.
 
 Shared domain logic lives in:
 
@@ -197,7 +197,7 @@ Follow `ROADMAP.md` for the full plan. Near-term priorities:
 2. Add replay tracking plus wrong-answer and Practice haptic feedback to the lesson attempt and review flows.
 3. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 4. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
-5. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
+5. Run responsive/accessibility QA on the web learner station.
 
 ## iOS Simulator Workflow
 
@@ -238,6 +238,7 @@ Current verified local slice:
 - Profile audio settings persist in SwiftData and feed playback/haptics: lesson tone Hz, Practice WPM/Farnsworth/tone, and lesson send haptics toggle.
 - A first-pass game UI is in place for onboarding, home, lesson chrome, and exercise cards.
 - Home HUD reads real profile stats, Practice reads `dueReviews`, Leagues reads `leaderboard`, and Profile reads `me.stats`.
+- Web stays in MVP as a lightweight learner station: public Morse preview plus email/password auth, token refresh, and real API-backed stats, skill tree, due reviews, and leaderboard.
 - Practice can run a playable SRS review session and save grades through `completeReviews`; `task smoke` verifies the API path with a seeded due card.
 - `task uitest` also covers Practice end to end with a dev-only seeded due card, one short audio play, typed copy, grade selection, and saved-state verification.
 - `DahditAPI` uses ApolloClient and generated operations; raw GraphQL query strings have been removed from the iOS wrapper.

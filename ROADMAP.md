@@ -12,7 +12,7 @@ The repository already has the foundation in place:
 - `packages/morse-core` with Morse encode/decode, exercise payload validation, send timing rules, SRS scheduling, and parity vectors.
 - `services/api` with Hono, Yoga, Pothos, Drizzle schema, auth scaffold, lesson mutations, grading, XP, streaks, SRS scheduling, migrations, and seed data.
 - `apps/ios` with an Xcode project, SwiftUI shell, local SPM packages, Swift parity tests, audio/haptics package, Keychain token store, and privacy manifest.
-- `apps/web` with a Nuxt companion page, interactive Morse preview, learner dashboard shell, and Cloudflare/Void deployment shape.
+- `apps/web` with a Nuxt companion page, interactive Morse preview, API-backed learner dashboard, and Cloudflare/Void deployment shape.
 - Docs in `docs/` for ADRs, runbook, and content authoring.
 
 Verified commands in the current environment:
@@ -81,6 +81,8 @@ Recent progress:
 - Stabilized the iOS UI smoke against delayed system password-save prompts and the home lesson card hit-testing quirk; the full `task uitest` suite is green again on iPhone 17 / iOS 26.5.
 - Expanded seed content into one complete beginner `Foundations` skill with four lessons and 20 exercises. The curriculum now lives in `services/api/scripts/curriculum.ts`, seed uses idempotent upserts, and API tests validate payloads/generated Morse solutions.
 - Updated GitHub Actions checkout usage to `actions/checkout@v6` so CI opts into the Node 24 action runtime instead of relying on the deprecated Node 20 path.
+- Decided the web companion stays in MVP as a lightweight learner station, not a second lesson platform. The Nuxt page now has email/password signup/login, token refresh, real API-backed stats, skill tree, due reviews, and leaderboard data, styled to match the iOS dark radio-game chrome.
+- Expanded local CORS defaults and Compose config to allow both `localhost` and `127.0.0.1` web dev origins, with `POSTGRES_PORT` configurable for machines where host port `5432` is already occupied.
 
 Known setup gaps:
 
@@ -107,7 +109,7 @@ Current status: Dahdit has a working local vertical slice, but it is not a compl
 | Audio + haptics | Partial | Device/simulator audio quality QA, haptic feedback for wrong-answer/Practice states, replay telemetry, and golden audio tests. |
 | Curriculum content | Mostly done | One complete beginner skill is seeded and repeatably validated; still needs manual playthrough beyond the first lesson and more authored content before launch. |
 | Practice/SRS | Partial | Add richer review variants, replay tracking, haptics, and overdue-card UX for larger queues. |
-| Web companion | Partial | Add web auth, real API-backed dashboard data, dashboard route protection, and responsive/accessibility QA. |
+| Web companion | Mostly done | Web auth and real dashboard data are wired; still needs responsive/accessibility QA and a production cookie/session hardening pass before launch. |
 | TestFlight readiness | Not done | Signing, Fastlane beta lane, real device archive validation, App Store privacy checks, app icon/assets, and screenshots. |
 | Staging/prod ops | Not done | VPS/staging deploy, production env/secrets, backups, metrics/logging/tracing, runbook drills, and rollback workflow. |
 
@@ -115,7 +117,6 @@ MVP blockers before calling this shippable:
 
 - Manual offline completion smoke: start a lesson online, turn network off, finish, see "Saved for sync", relaunch, restore network, confirm progress syncs once.
 - Audio/haptics pass on at least one real device or current simulator runtime.
-- Web dashboard either finished with auth/data or explicitly scoped out of MVP.
 - Internal TestFlight build produced and installed.
 - Staging API/web environment deployed with non-local secrets.
 
@@ -357,7 +358,7 @@ Work:
 
 - Add login/signup on web.
 - Add GraphQL client wrapper with auth token handling.
-- Replace static dashboard data with real `me`, stats, leaderboard, and due-review data.
+- Replace static dashboard data with real `me`, stats, leaderboard, and due-review data. Done for the lightweight web learner station.
 - Keep the Morse preview as a public interactive demo.
 - Add a web-only trial `listenAndType` exercise if it helps onboarding.
 - Add responsive and accessibility QA.
@@ -515,9 +516,9 @@ Highest priority:
 
 1. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 2. Verify audio quality and haptics on simulator/device for lesson and Practice flows.
-3. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
-4. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
-5. Add replay tracking plus wrong-answer and Practice haptic feedback to exercise/review logs.
+3. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
+4. Add replay tracking plus wrong-answer and Practice haptic feedback to exercise/review logs.
+5. Run responsive/accessibility QA on the web learner station.
 
 Second priority:
 

@@ -5,7 +5,9 @@ const EnvZ = z.object({
   JWT_SECRET: z.string().min(32),
   API_PORT: z.coerce.number().int().positive().default(4000),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-  CORS_ORIGINS: z.string().default('http://localhost:3000,http://localhost:3001'),
+  CORS_ORIGINS: z
+    .string()
+    .default('http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001'),
 })
 
 export const config = EnvZ.parse({
@@ -19,4 +21,3 @@ export const config = EnvZ.parse({
 export const corsOrigins = config.CORS_ORIGINS.split(',')
   .map((origin) => origin.trim())
   .filter(Boolean)
-
