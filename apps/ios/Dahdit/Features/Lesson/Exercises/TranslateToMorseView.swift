@@ -4,8 +4,19 @@ import SwiftUI
 
 struct TranslateToMorseView: View {
     let payload: TranslateToMorsePayload
+    let onKeyedSymbol: (MorseSymbol) -> Void
     let onSubmit: ([MorseSymbol]) -> Void
     @State private var symbols: [MorseSymbol] = []
+
+    init(
+        payload: TranslateToMorsePayload,
+        onKeyedSymbol: @escaping (MorseSymbol) -> Void = { _ in },
+        onSubmit: @escaping ([MorseSymbol]) -> Void
+    ) {
+        self.payload = payload
+        self.onKeyedSymbol = onKeyedSymbol
+        self.onSubmit = onSubmit
+    }
 
     var body: some View {
         ExerciseCard(
@@ -20,12 +31,14 @@ struct TranslateToMorseView: View {
                 GridRow {
                     Button {
                         symbols.append(.dit)
+                        onKeyedSymbol(.dit)
                     } label: {
                         Label("Dit", systemImage: "circle.fill")
                     }
                     .accessibilityIdentifier("exercise.translate.dit")
                     Button {
                         symbols.append(.dah)
+                        onKeyedSymbol(.dah)
                     } label: {
                         Label("Dah", systemImage: "minus")
                     }

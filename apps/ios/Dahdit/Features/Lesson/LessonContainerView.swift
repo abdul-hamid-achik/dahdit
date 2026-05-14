@@ -7,8 +7,10 @@ import SwiftUI
 
 struct LessonContainerView: View {
     let lessonId: String
+    @Environment(AppEnvironment.self) private var environment
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Query private var audioSettings: [UserAudioSettings]
     @State private var viewModel: LessonViewModel
 
     init(lessonId: String, api: DahditAPI, audio: MorseAudioPlayer) {
@@ -43,7 +45,10 @@ struct LessonContainerView: View {
             }
         }
         .toolbar(.hidden, for: .navigationBar)
-        .task { await viewModel.start(modelContext: modelContext) }
+        .task {
+            UserAudioSettings.current(in: modelContext)
+            await viewModel.start(modelContext: modelContext)
+        }
     }
 
     private var lessonHeader: some View {
@@ -136,12 +141,16 @@ struct LessonContainerView: View {
                 payload: payload,
                 isPlaying: viewModel.isPlayingPrompt,
                 playbackError: viewModel.playbackError,
-                onPlay: { Task { await viewModel.playPrompt(for: exercise) } }
+                onPlay: { Task { await viewModel.playPrompt(for: exercise, settings: audioSettingsSnapshot) } }
             ) { answer in
                 Task { await viewModel.submit(answer: .string(answer), modelContext: modelContext) }
             }
         case .tapTheCode(let payload):
-            TapTheCodeExerciseView(payload: payload) { symbols in
+            TapTheCodeExerciseView(
+                payload: payload,
+                timing: audioSettingsSnapshot.practiceTiming,
+                onKeyedSymbol: playHaptic
+            ) { symbols in
                 Task { await viewModel.submit(answer: .array(symbols.map { .string($0.rawValue) }), modelContext: modelContext) }
             }
         case .matchCharacterToCode(let payload):
@@ -149,7 +158,7 @@ struct LessonContainerView: View {
                 Task { await viewModel.submit(answer: .int(index), modelContext: modelContext) }
             }
         case .translateToMorse(let payload):
-            TranslateToMorseView(payload: payload) { symbols in
+            TranslateToMorseView(payload: payload, onKeyedSymbol: playHaptic) { symbols in
                 Task { await viewModel.submit(answer: .array(symbols.map { .string($0.rawValue) }), modelContext: modelContext) }
             }
         case .copyAtSpeed(let payload):
@@ -157,10 +166,20 @@ struct LessonContainerView: View {
                 payload: payload,
                 isPlaying: viewModel.isPlayingPrompt,
                 playbackError: viewModel.playbackError,
-                onPlay: { Task { await viewModel.playPrompt(for: exercise) } }
+                onPlay: { Task { await viewModel.playPrompt(for: exercise, settings: audioSettingsSnapshot) } }
             ) { answer in
                 Task { await viewModel.submit(answer: .string(answer), modelContext: modelContext) }
             }
         }
+    }
+
+    private var audioSettingsSnapshot: AudioSettingsSnapshot {
+        audioSettings.first?.snapshot ?? .default
+    }
+
+    private func playHaptic(_ symbol: MorseSymbol) {
+        guard audioSettingsSnapshot.hapticsEnabled else { return }
+        guard symbol == .dit || symbol == .dah else { return }
+        try? environment.haptics.key(symbols: [symbol], timing: audioSettingsSnapshot.practiceTiming)
     }
 }

@@ -1,9 +1,12 @@
 import DahditGraphQL
 import DahditUI
+import SwiftData
 import SwiftUI
 
 struct ProfileView: View {
     @Environment(AppEnvironment.self) private var environment
+    @Environment(\.modelContext) private var modelContext
+    @Query private var audioSettings: [UserAudioSettings]
     @State private var state: LoadState = .idle
     @State private var showingDeleteConfirmation = false
     @State private var actionError: String?
@@ -20,7 +23,10 @@ struct ProfileView: View {
             content
         }
         .toolbar(.hidden, for: .navigationBar)
-        .task { await loadIfNeeded() }
+        .task {
+            UserAudioSettings.current(in: modelContext)
+            await loadIfNeeded()
+        }
         .confirmationDialog(
             "Delete account?",
             isPresented: $showingDeleteConfirmation,
@@ -110,9 +116,51 @@ struct ProfileView: View {
         GamePanel {
             VStack(alignment: .leading, spacing: 14) {
                 panelTitle("Audio", systemImage: "speaker.wave.2.fill")
-                settingRow("Tone", value: "700 Hz", systemImage: "waveform")
-                settingRow("Default speed", value: "15 WPM", systemImage: "speedometer")
-                settingRow("Haptics", value: "On", systemImage: "iphone.radiowaves.left.and.right")
+                settingStepper(
+                    "Tone",
+                    value: settingsBinding(\.toneHz, fallback: AudioSettingsSnapshot.default.toneHz, range: 400...900, step: 50),
+                    display: "\(Int(audioSettingsSnapshot.toneHz)) Hz",
+                    systemImage: "waveform",
+                    range: 400...900,
+                    step: 50
+                )
+                .accessibilityIdentifier("profile.audio.tone")
+
+                settingStepper(
+                    "Default speed",
+                    value: settingsBinding(\.defaultWpm, fallback: AudioSettingsSnapshot.default.defaultWpm, range: 5...40, step: 1),
+                    display: "\(Int(audioSettingsSnapshot.defaultWpm)) WPM",
+                    systemImage: "speedometer",
+                    range: 5...40,
+                    step: 1
+                )
+                .accessibilityIdentifier("profile.audio.wpm")
+
+                settingStepper(
+                    "Farnsworth",
+                    value: settingsBinding(\.farnsworthWpm, fallback: AudioSettingsSnapshot.default.farnsworthWpm, range: 5...audioSettingsSnapshot.defaultWpm, step: 1),
+                    display: "\(Int(audioSettingsSnapshot.farnsworthWpm)) WPM",
+                    systemImage: "metronome.fill",
+                    range: 5...audioSettingsSnapshot.defaultWpm,
+                    step: 1
+                )
+                .accessibilityIdentifier("profile.audio.farnsworth")
+
+                Toggle(isOn: hapticsBinding) {
+                    HStack(spacing: 12) {
+                        Image(systemName: "iphone.radiowaves.left.and.right")
+                            .font(.headline)
+                            .foregroundStyle(Color.dahdit.primary)
+                            .frame(width: 28)
+                        Text("Haptics")
+                            .font(.system(.body, design: .rounded, weight: .semibold))
+                            .foregroundStyle(Color.dahdit.cream)
+                        Spacer()
+                    }
+                }
+                .toggleStyle(.switch)
+                .tint(Color.dahdit.primary)
+                .accessibilityIdentifier("profile.audio.haptics")
             }
         }
     }
@@ -159,6 +207,57 @@ struct ProfileView: View {
                 .foregroundStyle(Color.white.opacity(0.62))
         }
         .padding(.vertical, 4)
+    }
+
+    private func settingStepper(
+        _ title: String,
+        value: Binding<Double>,
+        display: String,
+        systemImage: String,
+        range: ClosedRange<Double>,
+        step: Double
+    ) -> some View {
+        Stepper(value: value, in: range, step: step) {
+            settingRow(title, value: display, systemImage: systemImage)
+        }
+        .tint(Color.dahdit.primary)
+    }
+
+    private var audioSettingsSnapshot: AudioSettingsSnapshot {
+        audioSettings.first?.snapshot ?? .default
+    }
+
+    private var hapticsBinding: Binding<Bool> {
+        Binding {
+            audioSettings.first?.hapticsEnabled ?? AudioSettingsSnapshot.default.hapticsEnabled
+        } set: { newValue in
+            updateAudioSettings { settings in
+                settings.hapticsEnabled = newValue
+            }
+        }
+    }
+
+    private func settingsBinding(
+        _ keyPath: ReferenceWritableKeyPath<UserAudioSettings, Double>,
+        fallback: Double,
+        range: ClosedRange<Double>,
+        step: Double
+    ) -> Binding<Double> {
+        Binding {
+            audioSettings.first?[keyPath: keyPath] ?? fallback
+        } set: { newValue in
+            updateAudioSettings { settings in
+                let stepped = (newValue / step).rounded() * step
+                settings[keyPath: keyPath] = min(max(stepped, range.lowerBound), range.upperBound)
+            }
+        }
+    }
+
+    private func updateAudioSettings(_ apply: (UserAudioSettings) -> Void) {
+        let settings = audioSettings.first ?? UserAudioSettings.current(in: modelContext)
+        apply(settings)
+        settings.touch()
+        try? modelContext.save()
     }
 
     private func actionRow(_ title: String, systemImage: String, tint: Color) -> some View {

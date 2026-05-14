@@ -14,7 +14,7 @@ struct DahditApp: App {
             RootView()
                 .environment(environment)
         }
-        .modelContainer(for: LessonAttemptDraft.self)
+        .modelContainer(for: [LessonAttemptDraft.self, UserAudioSettings.self])
     }
 }
 

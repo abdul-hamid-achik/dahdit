@@ -1,10 +1,13 @@
 import DahditCore
 import DahditGraphQL
 import DahditUI
+import SwiftData
 import SwiftUI
 
 struct PracticeView: View {
     @Environment(AppEnvironment.self) private var environment
+    @Environment(\.modelContext) private var modelContext
+    @Query private var audioSettings: [UserAudioSettings]
     @State private var mode: PracticeMode = .idle
     @State private var reviews: [DahditGraphQL.ReviewCard] = []
     @State private var currentIndex = 0
@@ -25,7 +28,10 @@ struct PracticeView: View {
             content
         }
         .toolbar(.hidden, for: .navigationBar)
-        .task { await loadIfNeeded() }
+        .task {
+            UserAudioSettings.current(in: modelContext)
+            await loadIfNeeded()
+        }
     }
 
     @ViewBuilder
@@ -109,7 +115,7 @@ struct PracticeView: View {
                 ExerciseCard(
                     eyebrow: reviewKindTitle(for: currentReview.cardKey),
                     title: revealed ? reviewTitle(for: currentReview.cardKey) : "What did you copy?",
-                    subtitle: "15 WPM review signal",
+                    subtitle: "\(Int(audioSettingsSnapshot.defaultWpm)) WPM review signal",
                     systemImage: "repeat.circle.fill"
                 ) {
                     WaveformVisualizer(symbols: currentSymbols)
@@ -365,14 +371,19 @@ struct PracticeView: View {
         playbackError = nil
         let audio = environment.audio
         let symbols = currentSymbols
+        let timing = audioSettingsSnapshot.practiceTiming
         Task {
             do {
-                try await audio.play(symbols: symbols, timing: MorseTiming(wpm: 15, toneHz: 700))
+                try await audio.play(symbols: symbols, timing: timing)
             } catch {
                 playbackError = error.localizedDescription
             }
             isPlaying = false
         }
+    }
+
+    private var audioSettingsSnapshot: AudioSettingsSnapshot {
+        audioSettings.first?.snapshot ?? .default
     }
 
     private func defaultGrade(wasCorrect: Bool, elapsed: TimeInterval) -> DahditCore.ReviewGrade {

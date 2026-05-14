@@ -1,3 +1,4 @@
+import Foundation
 import XCTest
 
 final class DahditLessonCompletionUITests: XCTestCase {
@@ -11,8 +12,13 @@ final class DahditLessonCompletionUITests: XCTestCase {
 
         let firstLesson = app.buttons["lesson.First Signals"]
         XCTAssertTrue(firstLesson.waitForExistence(timeout: 8))
-        firstLesson.tap()
+        dismissSystemPrompts(app)
+        tapElement(firstLesson, in: app)
 
+        if !app.buttons["exercise.choice.0"].waitForExistence(timeout: 4) {
+            dismissSystemPrompts(app)
+            tapElement(firstLesson, in: app)
+        }
         XCTAssertTrue(app.buttons["exercise.choice.0"].waitForExistence(timeout: 12))
         app.buttons["exercise.choice.0"].tap()
 
@@ -72,6 +78,7 @@ final class DahditLessonCompletionUITests: XCTestCase {
         }
 
         XCTAssertTrue(app.scrollViews["home.screen"].waitForExistence(timeout: 15))
+        dismissSystemPrompts(app)
     }
 
     @MainActor
@@ -91,6 +98,30 @@ final class DahditLessonCompletionUITests: XCTestCase {
             app.keyboards.buttons["done"].tap()
         } else if app.keyboards.buttons["go"].exists {
             app.keyboards.buttons["go"].tap()
+        }
+    }
+
+    @MainActor
+    private func tapElement(_ element: XCUIElement, in app: XCUIApplication) {
+        if element.isHittable {
+            element.tap()
+            return
+        }
+
+        let frame = element.frame
+        XCTAssertFalse(frame.isEmpty, "Cannot tap an element with an empty frame")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            .withOffset(CGVector(dx: frame.midX, dy: frame.midY))
+            .tap()
+    }
+
+    @MainActor
+    private func dismissSystemPrompts(_ app: XCUIApplication) {
+        for _ in 0..<6 {
+            if app.buttons["Not Now"].exists {
+                app.buttons["Not Now"].tap()
+            }
+            Thread.sleep(forTimeInterval: 0.25)
         }
     }
 }

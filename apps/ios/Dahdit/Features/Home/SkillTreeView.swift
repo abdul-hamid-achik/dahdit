@@ -4,6 +4,7 @@ import SwiftUI
 struct SkillTreeView: View {
     @Environment(AppEnvironment.self) private var environment
     @State var viewModel: SkillTreeViewModel
+    @State private var selectedLesson: LessonNode?
 
     var body: some View {
         ZStack {
@@ -28,11 +29,18 @@ struct SkillTreeView: View {
                     .padding(.top, 28)
                     .padding(.bottom, 110)
                 }
+                .accessibilityIdentifier("home.screen")
             }
         }
         .toolbar(.hidden, for: .navigationBar)
+        .navigationDestination(item: $selectedLesson) { lesson in
+            LessonContainerView(
+                lessonId: lesson.id,
+                api: environment.api,
+                audio: environment.audio
+            )
+        }
         .task { await viewModel.load() }
-        .accessibilityIdentifier("home.screen")
     }
 
     private func header(xp: Int, streak: Int) -> some View {
@@ -88,12 +96,8 @@ struct SkillTreeView: View {
 
             VStack(spacing: 12) {
                 ForEach(skill.lessons) { lesson in
-                    NavigationLink {
-                        LessonContainerView(
-                            lessonId: lesson.id,
-                            api: environment.api,
-                            audio: environment.audio
-                        )
+                    Button {
+                        selectedLesson = lesson
                     } label: {
                         LessonBubble(
                             title: lesson.title,

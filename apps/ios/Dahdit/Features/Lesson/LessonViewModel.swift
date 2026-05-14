@@ -69,14 +69,14 @@ final class LessonViewModel {
         }
     }
 
-    func playPrompt(for exercise: Exercise) async {
+    func playPrompt(for exercise: Exercise, settings: AudioSettingsSnapshot) async {
         guard let prompt = audioPrompt(for: exercise), !isPlayingPrompt else { return }
         isPlayingPrompt = true
         playbackError = nil
         defer { isPlayingPrompt = false }
 
         do {
-            try await audio.play(symbols: prompt.symbols, timing: prompt.timing)
+            try await audio.play(symbols: prompt.symbols, timing: settings.applyingTone(to: prompt.timing))
         } catch {
             playbackError = error.localizedDescription
         }

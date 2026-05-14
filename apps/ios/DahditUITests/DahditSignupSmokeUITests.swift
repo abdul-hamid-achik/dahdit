@@ -1,3 +1,4 @@
+import Foundation
 import XCTest
 
 final class DahditSignupSmokeUITests: XCTestCase {
@@ -38,7 +39,18 @@ final class DahditSignupSmokeUITests: XCTestCase {
         }
 
         XCTAssertTrue(app.scrollViews["home.screen"].waitForExistence(timeout: 15))
+        dismissSystemPrompts(app)
         XCTAssertTrue(app.staticTexts["Foundations"].waitForExistence(timeout: 8))
         XCTAssertTrue(app.staticTexts["First Signals"].waitForExistence(timeout: 8))
+    }
+
+    @MainActor
+    private func dismissSystemPrompts(_ app: XCUIApplication) {
+        for _ in 0..<6 {
+            if app.buttons["Not Now"].exists {
+                app.buttons["Not Now"].tap()
+            }
+            Thread.sleep(forTimeInterval: 0.25)
+        }
     }
 }

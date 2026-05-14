@@ -4,10 +4,23 @@ import SwiftUI
 
 struct TapTheCodeExerciseView: View {
     let payload: TapTheCodePayload
+    let timing: MorseTiming
+    let onKeyedSymbol: (MorseSymbol) -> Void
     let onSubmit: ([MorseSymbol]) -> Void
     @State private var symbols: [MorseSymbol] = []
     @State private var keyDownAt: Date?
-    private let timing = MorseTiming(wpm: 15)
+
+    init(
+        payload: TapTheCodePayload,
+        timing: MorseTiming = MorseTiming(wpm: 15),
+        onKeyedSymbol: @escaping (MorseSymbol) -> Void = { _ in },
+        onSubmit: @escaping ([MorseSymbol]) -> Void
+    ) {
+        self.payload = payload
+        self.timing = timing
+        self.onKeyedSymbol = onKeyedSymbol
+        self.onSubmit = onSubmit
+    }
 
     var body: some View {
         ExerciseCard(
@@ -23,7 +36,9 @@ struct TapTheCodeExerciseView: View {
                     keyDownAt = date
                 } else if let keyDownAt {
                     let durationMs = date.timeIntervalSince(keyDownAt) * 1000
-                    symbols.append(SendTimingClassifier.classifyPress(durationMs: durationMs, timing: timing))
+                    let symbol = SendTimingClassifier.classifyPress(durationMs: durationMs, timing: timing)
+                    symbols.append(symbol)
+                    onKeyedSymbol(symbol)
                     self.keyDownAt = nil
                 }
             }
@@ -31,6 +46,7 @@ struct TapTheCodeExerciseView: View {
             HStack(spacing: 10) {
                 Button {
                     symbols.append(.dit)
+                    onKeyedSymbol(.dit)
                 } label: {
                     Label("Dit", systemImage: "circle.fill")
                 }
@@ -39,6 +55,7 @@ struct TapTheCodeExerciseView: View {
 
                 Button {
                     symbols.append(.dah)
+                    onKeyedSymbol(.dah)
                 } label: {
                     Label("Dah", systemImage: "minus")
                 }

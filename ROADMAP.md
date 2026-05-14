@@ -76,6 +76,9 @@ Recent progress:
 - Added first-pass SwiftData lesson attempt drafts: the app persists lesson answer logs, deletes the draft after successful `completeLesson`, and marks failed completions for later sync.
 - Added pending lesson completion retry on lesson start and app foregrounding, plus a "Saved for sync" state when completion cannot reach the API.
 - Stabilized lesson row hit testing by making `LessonBubble` a full-width single accessibility element with an explicit content shape.
+- Added persisted SwiftData audio/profile settings for WPM, Farnsworth WPM, tone Hz, and haptics on/off; lesson playback now applies the selected tone and Practice playback uses the selected timing.
+- Wired first-pass send haptics for lesson `tapTheCode` and `translateToMorse` manual/gesture key input, gated by the persisted haptics setting.
+- Stabilized the iOS UI smoke against delayed system password-save prompts and the home lesson card hit-testing quirk; the full `task uitest` suite is green again on iPhone 17 / iOS 26.5.
 
 Known setup gaps:
 
@@ -84,7 +87,7 @@ Known setup gaps:
 - iOS API calls now use Apollo-generated operations with startup session validation and one-shot per-request auth refresh/retry. The forced expired-access-token retry path is covered by a `DahditGraphQL` package test.
 - The unsigned simulator build uses a `DEBUG` UserDefaults fallback if Keychain writes fail. Signed simulator/device/TestFlight builds still need a real Keychain verification pass.
 - All five lesson exercise kinds are covered by `task uitest`, and Practice now has a short simulator audio/playback smoke. Deeper audio quality and haptics still need simulator/device verification.
-- Practice, leaderboard, profile, and Home HUD are API-backed. Practice has a first playable SRS review loop; richer review variants, replay telemetry, and haptic feedback still need to be added. Profile audio settings are still static display rows.
+- Practice, leaderboard, profile, and Home HUD are API-backed. Practice has a first playable SRS review loop; richer review variants, replay telemetry, and Practice haptic feedback still need to be added. Profile audio settings are persisted and wired into playback.
 - Offline `completeLesson` retry is implemented through SwiftData pending drafts and app-start/foreground sync. It still needs a manual network-disconnect simulator smoke before being treated as fully verified.
 - iOS 26.5 simulator/device support is installed and `task app` builds again.
 - The web scripts use Nuxt/Vitest directly. Vite+ remains pinned, but direct `vp build` is not the stable Nuxt path right now.
@@ -99,7 +102,7 @@ Current status: Dahdit has a working local vertical slice, but it is not a compl
 | Backend vertical slice | Mostly done | Add typed GraphQL error unions, production rate limiting/CORS, broader anti-cheat and SRS edge-case tests. |
 | iOS auth + lesson loop | Mostly done | Verify signed Keychain behavior on simulator/device, add replay telemetry, and polish error states. |
 | Offline lesson progress | Partial | Run the manual network-off/network-on simulator smoke, add skill/lesson content cache, and add mid-lesson resume UI. |
-| Audio + haptics | Partial | Device/simulator audio quality QA, haptic feedback for send/wrong-answer states, persisted audio settings, and golden audio tests. |
+| Audio + haptics | Partial | Device/simulator audio quality QA, haptic feedback for wrong-answer/Practice states, replay telemetry, and golden audio tests. |
 | Curriculum content | Partial | Expand from the seeded vertical slice to at least one complete beginner skill with multiple lessons. |
 | Practice/SRS | Partial | Add richer review variants, replay tracking, haptics, and overdue-card UX for larger queues. |
 | Web companion | Partial | Add web auth, real API-backed dashboard data, dashboard route protection, and responsive/accessibility QA. |
@@ -111,7 +114,6 @@ MVP blockers before calling this shippable:
 - Manual offline completion smoke: start a lesson online, turn network off, finish, see "Saved for sync", relaunch, restore network, confirm progress syncs once.
 - Audio/haptics pass on at least one real device or current simulator runtime.
 - One complete beginner skill seeded and repeatably validated.
-- Persisted profile/audio settings wired into playback.
 - Web dashboard either finished with auth/data or explicitly scoped out of MVP.
 - Internal TestFlight build produced and installed.
 - Staging API/web environment deployed with non-local secrets.
@@ -295,6 +297,7 @@ After the app is running, use Computer Use or manual simulator inspection to ver
 - Submitting answers progresses all five exercise kinds. Verified by `task uitest`.
 - Audio play controls are wired for `listenAndType` and `copyAtSpeed`; Practice has a short audio-play UI smoke, while deeper lesson audio quality still needs simulator/device verification.
 - Manual send controls are available for `tapTheCode` and `translateToMorse`; all seeded send exercises are covered by `task uitest`.
+- Profile audio settings persist in SwiftData and are applied to playback: lesson audio uses the selected tone, Practice uses selected WPM/Farnsworth/tone, and send haptics honor the persisted haptics toggle.
 - Completion screen shows server-returned XP/streak. Verified by `task uitest`.
 - Practice SRS review loads a seeded due card, plays the short signal prompt, grades copy, saves through `completeReviews`, and shows the saved state. Verified by `task uitest`.
 
@@ -306,13 +309,13 @@ Work:
 
 - Connect `MorseAudioPlayer` to `listenAndType` and `copyAtSpeed`. Done in code; runtime audio smoke still pending.
 - Add replay tracking to exercise logs.
-- Add haptic feedback for key taps and wrong answers.
+- Add haptic feedback for key taps and wrong answers. Key-tap haptics are wired for lesson send controls; wrong-answer haptics still pending.
 - Add replay tracking and haptic feedback to the Practice SRS flow.
 - Implement send pause detection in the lesson view model.
 - Build polished exercise views for all five payload kinds. First pass done with station-style cards, stronger controls, and shared lesson chrome.
 - Normalize app-wide screen chrome for Practice, Leagues, Profile, loading, and error states. Done.
 - Add accessible manual "Done" and "Next character" alternatives. Done for send exercises through explicit symbol/gap controls.
-- Add audio settings: WPM, Farnsworth WPM, tone Hz, haptics on/off.
+- Add audio settings: WPM, Farnsworth WPM, tone Hz, haptics on/off. Done with SwiftData persistence and playback integration.
 - Add golden audio tests for SOS at 20 WPM.
 
 Acceptance:
@@ -512,12 +515,12 @@ Highest priority:
 1. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 2. Verify audio quality and haptics on simulator/device for lesson and Practice flows.
 3. Expand seed content to one complete beginner skill.
-4. Replace static Profile audio settings with persisted WPM, Farnsworth WPM, tone Hz, and haptics settings.
-5. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
+4. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
+5. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
 
 Second priority:
 
-1. Add replay tracking and haptic feedback to exercise logs, send interactions, and Practice reviews.
+1. Add replay tracking plus wrong-answer and Practice haptic feedback to exercise/review logs.
 2. Add Swift snapshot or UI tests for core lesson screens.
 3. Add golden audio tests.
 4. Add staging deploy scripts and production secret documentation.

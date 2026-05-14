@@ -56,6 +56,16 @@ For Docker-related commands in the Codex app, this fuller PATH is often needed:
 PATH="$HOME/.bun/bin:/opt/homebrew/bin:/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH" <command>
 ```
 
+If another local project already owns host port `5432`, run Dahdit Compose with a temporary override that exposes Postgres on `5433`, then point direct DB scripts at that port:
+
+```bash
+tmp=$(mktemp /tmp/dahdit-compose-XXXX.yml)
+printf 'services:\n  postgres:\n    ports: !override\n      - "5433:5432"\n' > "$tmp"
+docker compose -f docker-compose.yml -f "$tmp" up -d postgres api
+rm -f "$tmp"
+DATABASE_URL=postgres://dahdit:dahdit@localhost:5433/dahdit task smoke
+```
+
 Known local requirements:
 
 - Bun 1.3+
@@ -72,9 +82,10 @@ Known current gaps:
 - Unsigned simulator builds can fall back to DEBUG-only UserDefaults token storage if Keychain writes fail. Signed simulator/device/TestFlight builds must verify the real Keychain path.
 - `listenAndType` and `copyAtSpeed` have app-side audio playback controls wired to `MorseAudioPlayer`; Practice now has one short audio-play UI smoke, but deeper lesson audio quality still needs simulator/device verification.
 - `tapTheCode` and `translateToMorse` have manual symbol controls, and the seeded send exercises are covered by `task uitest`.
+- Profile audio settings are persisted in SwiftData. Lesson playback applies the selected tone Hz, Practice playback uses selected WPM/Farnsworth/tone, and lesson send haptics honor the persisted haptics toggle.
 - Practice has stable UI identifiers and is covered by `task uitest` through a seeded due review card. The test taps one short audio prompt; deeper audio quality and haptic verification still need simulator/device checks.
 - Onboarding, home, lesson shell, all five exercise views, Practice, Leagues, Profile, loading, and error states share the first-pass Morse-game UI.
-- Home HUD, Practice, Leagues, and Profile are API-backed through Apollo-generated operations. Practice has a first playable SRS review flow backed by `dueReviews` and `completeReviews`; richer variants, replay telemetry, and haptic feedback still need work. Profile audio settings are still static display values.
+- Home HUD, Practice, Leagues, and Profile are API-backed through Apollo-generated operations. Practice has a first playable SRS review flow backed by `dueReviews` and `completeReviews`; richer variants, replay telemetry, and Practice haptic feedback still need work.
 - Lesson attempts are persisted as SwiftData drafts. Failed `completeLesson` calls move into a pending sync state and retry when the app foregrounds or another lesson starts; the manual network-disconnect simulator smoke is still pending.
 - Root auth validates stored tokens at startup, rotates through `refreshToken` when possible, and clears stale invalid sessions back to onboarding.
 - `task ios` and `task app` run XcodeGen before opening/building. Run `task xcode` after adding Swift files if you are working directly in Xcode.
@@ -183,10 +194,10 @@ Shared logic:
 Follow `ROADMAP.md` for the full plan. Near-term priorities:
 
 1. Verify deeper audio quality and haptics on simulator/device for lesson and Practice flows.
-2. Add replay tracking and haptic feedback to the lesson attempt and Practice review flows.
+2. Add replay tracking plus wrong-answer and Practice haptic feedback to the lesson attempt and review flows.
 3. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 4. Expand seed content to one complete beginner skill.
-5. Replace static Profile audio settings with persisted settings.
+5. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
 
 ## iOS Simulator Workflow
 
@@ -224,6 +235,7 @@ Current verified local slice:
 - All five seeded exercise kinds progress through the lesson flow.
 - `listenAndType` and `copyAtSpeed` playback buttons are wired to the shared audio service in code.
 - `tapTheCode` and `translateToMorse` can be answered through explicit manual controls.
+- Profile audio settings persist in SwiftData and feed playback/haptics: lesson tone Hz, Practice WPM/Farnsworth/tone, and lesson send haptics toggle.
 - A first-pass game UI is in place for onboarding, home, lesson chrome, and exercise cards.
 - Home HUD reads real profile stats, Practice reads `dueReviews`, Leagues reads `leaderboard`, and Profile reads `me.stats`.
 - Practice can run a playable SRS review session and save grades through `completeReviews`; `task smoke` verifies the API path with a seeded due card.

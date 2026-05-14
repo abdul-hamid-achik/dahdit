@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B4EE23F6F2E752F1007237F /* LessonContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0CE21A38EEDF70CA1D2400 /* LessonContainerView.swift */; };
 		13571FD201F76445CA434871 /* ListenAndTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D832B5D7A264F017AE97024B /* ListenAndTypeView.swift */; };
+		1D8DB2ED5091B2075640670C /* UserAudioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E90C3F33EFC5B1B025F6BD /* UserAudioSettings.swift */; };
 		1E91AA9EA024EDC4DA88CD53 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3798885D3AB1B5A9AC0BAB20 /* LeaderboardView.swift */; };
 		28744C5C145B1C04267113C2 /* DahditLessonCompletionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D3F2BFDE8D86017E3FCA2 /* DahditLessonCompletionUITests.swift */; };
 		2F42D96E1A0393E6AD6F930C /* DahditCore in Frameworks */ = {isa = PBXBuildFile; productRef = A0F45332E01B93A54B34FB4E /* DahditCore */; };
@@ -82,6 +83,7 @@
 		B8383A1EA30CB30A73153685 /* Dahdit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Dahdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B924FBE88A8B5D232959419B /* DahditCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DahditCore; path = Packages/DahditCore; sourceTree = SOURCE_ROOT; };
 		C8494DA96BF92F891580535B /* DahditUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DahditUI; path = Packages/DahditUI; sourceTree = SOURCE_ROOT; };
+		D3E90C3F33EFC5B1B025F6BD /* UserAudioSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAudioSettings.swift; sourceTree = "<group>"; };
 		D832B5D7A264F017AE97024B /* ListenAndTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenAndTypeView.swift; sourceTree = "<group>"; };
 		DB0CE21A38EEDF70CA1D2400 /* LessonContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonContainerView.swift; sourceTree = "<group>"; };
 		E651E45DEAEDF32880BF6D40 /* KeychainTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTokenStore.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				E651E45DEAEDF32880BF6D40 /* KeychainTokenStore.swift */,
 				68BFB8C23FA81023CA7E0B29 /* Secrets.swift */,
 				6A5E97174F9501F1673D9978 /* TokenRefreshCoordinator.swift */,
+				D3E90C3F33EFC5B1B025F6BD /* UserAudioSettings.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				929325D78F193AFA1DA6B7FA /* TapTheCodeExerciseView.swift in Sources */,
 				FE9427C6BA876C45C4238857 /* TokenRefreshCoordinator.swift in Sources */,
 				BD9C613EC4A5886F52588128 /* TranslateToMorseView.swift in Sources */,
+				1D8DB2ED5091B2075640670C /* UserAudioSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

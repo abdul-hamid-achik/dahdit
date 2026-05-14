@@ -67,6 +67,7 @@ final class DahditPracticeReviewUITests: XCTestCase {
         }
 
         XCTAssertTrue(app.scrollViews["home.screen"].waitForExistence(timeout: 15))
+        dismissSystemPrompts(app)
         return username
     }
 
@@ -94,6 +95,16 @@ final class DahditPracticeReviewUITests: XCTestCase {
             app.keyboards.buttons["done"].tap()
         } else if app.keyboards.buttons["go"].exists {
             app.keyboards.buttons["go"].tap()
+        }
+    }
+
+    @MainActor
+    private func dismissSystemPrompts(_ app: XCUIApplication) {
+        for _ in 0..<6 {
+            if app.buttons["Not Now"].exists {
+                app.buttons["Not Now"].tap()
+            }
+            Thread.sleep(forTimeInterval: 0.25)
         }
     }
 }
