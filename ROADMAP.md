@@ -80,6 +80,7 @@ Recent progress:
 - Wired first-pass send haptics for lesson `tapTheCode` and `translateToMorse` manual/gesture key input, gated by the persisted haptics setting.
 - Stabilized the iOS UI smoke against delayed system password-save prompts and the home lesson card hit-testing quirk; the full `task uitest` suite is green again on iPhone 17 / iOS 26.5.
 - Expanded seed content into one complete beginner `Foundations` skill with four lessons and 20 exercises. The curriculum now lives in `services/api/scripts/curriculum.ts`, seed uses idempotent upserts, and API tests validate payloads/generated Morse solutions.
+- Updated GitHub Actions checkout usage to `actions/checkout@v6` so CI opts into the Node 24 action runtime instead of relying on the deprecated Node 20 path.
 
 Known setup gaps:
 
@@ -99,7 +100,7 @@ Current status: Dahdit has a working local vertical slice, but it is not a compl
 
 | Area | Status | What is missing |
 | --- | --- | --- |
-| Local dev + CI | Mostly done | Keep CI current with GitHub's Node 24 action runtime change before June 2026 defaults land. |
+| Local dev + CI | Mostly done | CI is green and uses the Node 24-compatible checkout action; keep dependency/runtime pins current. |
 | Backend vertical slice | Mostly done | Add typed GraphQL error unions, production rate limiting/CORS, broader anti-cheat and SRS edge-case tests. |
 | iOS auth + lesson loop | Mostly done | Verify signed Keychain behavior on simulator/device, add replay telemetry, and polish error states. |
 | Offline lesson progress | Partial | Run the manual network-off/network-on simulator smoke, add skill/lesson content cache, and add mid-lesson resume UI. |
@@ -516,15 +517,13 @@ Highest priority:
 2. Verify audio quality and haptics on simulator/device for lesson and Practice flows.
 3. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
 4. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
-5. Update GitHub Actions dependencies for the Node 24 runtime transition.
+5. Add replay tracking plus wrong-answer and Practice haptic feedback to exercise/review logs.
 
 Second priority:
 
-1. Add replay tracking plus wrong-answer and Practice haptic feedback to exercise/review logs.
-2. Add Swift snapshot or UI tests for core lesson screens.
-3. Add golden audio tests.
-4. Add staging deploy scripts and production secret documentation.
-5. Update GitHub Actions dependencies for the Node 24 runtime transition.
+1. Add Swift snapshot or UI tests for core lesson screens.
+2. Add golden audio tests.
+3. Add staging deploy scripts and production secret documentation.
 
 Deferred:
 
