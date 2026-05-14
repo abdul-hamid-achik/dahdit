@@ -1,86 +1,79 @@
-import { encodeMorse, ExercisePayloadZ, symbolsToCode } from '@dahdit/morse-core'
-import { db, closeDb } from '../src/db/client'
+import { symbolsToCode, encodeMorse } from '@dahdit/morse-core'
+import { closeDb, db } from '../src/db/client'
 import { exercises, lessons, skills } from '../src/db/schema'
+import { curriculum } from './curriculum'
 
-const foundations = await db
-  .insert(skills)
-  .values({
-    slug: 'foundations',
-    title: 'Foundations',
-    description: 'Hear and recognize E, T, A, N, and SOS.',
-    position: 0,
-  })
-  .onConflictDoNothing()
-  .returning()
+let lessonCount = 0
+let exerciseCount = 0
 
-const skill =
-  foundations[0] ??
-  (await db.query.skills.findFirst({
-    where: (table, { eq }) => eq(table.slug, 'foundations'),
-  }))
-
-if (!skill) throw new Error('Could not seed skill')
-
-const [lesson] = await db
-  .insert(lessons)
-  .values({
-    skillId: skill.id,
-    slug: 'first-signals',
-    title: 'First Signals',
-    position: 0,
-    xpReward: 10,
-  })
-  .onConflictDoNothing()
-  .returning()
-
-const lessonRow =
-  lesson ??
-  (await db.query.lessons.findFirst({
-    where: (table, { eq }) => eq(table.slug, 'first-signals'),
-  }))
-
-if (!lessonRow) throw new Error('Could not seed lesson')
-
-const payloads = [
-  ExercisePayloadZ.parse({
-    kind: 'matchCharacterToCode',
-    prompt: { character: 'E', options: ['.', '-', '.-', '-.'] },
-    solution: { correctIndex: 0 },
-  }),
-  ExercisePayloadZ.parse({
-    kind: 'listenAndType',
-    prompt: { text: 'ET', timing: { wpm: 12, farnsworthWpm: 8 } },
-    solution: { accept: ['ET'] },
-  }),
-  ExercisePayloadZ.parse({
-    kind: 'tapTheCode',
-    prompt: { character: 'A' },
-    solution: { symbols: ['dit', 'dah'] },
-  }),
-  ExercisePayloadZ.parse({
-    kind: 'translateToMorse',
-    prompt: { text: 'SOS' },
-    solution: { symbols: encodeMorse('SOS') },
-  }),
-  ExercisePayloadZ.parse({
-    kind: 'copyAtSpeed',
-    prompt: { text: 'CQ CQ DE DAHDIT', timing: { wpm: 12, farnsworthWpm: 8 }, durationSec: 20 },
-    solution: { accept: ['CQ CQ DE DAHDIT'], toleranceLevenshteinPer5Chars: 1 },
-  }),
-]
-
-for (const [position, payload] of payloads.entries()) {
-  await db
-    .insert(exercises)
+for (const skillSeed of curriculum) {
+  const [skill] = await db
+    .insert(skills)
     .values({
-      lessonId: lessonRow.id,
-      kind: payload.kind,
-      position,
-      payload,
+      slug: skillSeed.slug,
+      title: skillSeed.title,
+      description: skillSeed.description,
+      position: skillSeed.position,
     })
-    .onConflictDoNothing()
+    .onConflictDoUpdate({
+      target: skills.slug,
+      set: {
+        title: skillSeed.title,
+        description: skillSeed.description,
+        position: skillSeed.position,
+      },
+    })
+    .returning()
+
+  if (!skill) throw new Error(`Could not seed skill ${skillSeed.slug}`)
+
+  for (const lessonSeed of skillSeed.lessons) {
+    const [lesson] = await db
+      .insert(lessons)
+      .values({
+        skillId: skill.id,
+        slug: lessonSeed.slug,
+        title: lessonSeed.title,
+        position: lessonSeed.position,
+        xpReward: lessonSeed.xpReward,
+      })
+      .onConflictDoUpdate({
+        target: [lessons.skillId, lessons.position],
+        set: {
+          slug: lessonSeed.slug,
+          title: lessonSeed.title,
+          xpReward: lessonSeed.xpReward,
+        },
+      })
+      .returning()
+
+    if (!lesson) throw new Error(`Could not seed lesson ${lessonSeed.slug}`)
+    lessonCount += 1
+
+    for (const [position, payload] of lessonSeed.exercises.entries()) {
+      await db
+        .insert(exercises)
+        .values({
+          lessonId: lesson.id,
+          kind: payload.kind,
+          position,
+          payload,
+        })
+        .onConflictDoUpdate({
+          target: [exercises.lessonId, exercises.position],
+          set: {
+            kind: payload.kind,
+            payload,
+          },
+        })
+      exerciseCount += 1
+    }
+  }
 }
 
-console.log(`Seeded ${payloads.length} exercises. SOS is ${symbolsToCode(encodeMorse('SOS'))}`)
+console.log(
+  `Seeded ${curriculum.length} skill, ${lessonCount} lessons, and ${exerciseCount} exercises. SOS is ${symbolsToCode(
+    encodeMorse('SOS'),
+  )}`,
+)
 await closeDb()
-

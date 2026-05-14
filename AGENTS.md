@@ -196,8 +196,8 @@ Follow `ROADMAP.md` for the full plan. Near-term priorities:
 1. Verify deeper audio quality and haptics on simulator/device for lesson and Practice flows.
 2. Add replay tracking plus wrong-answer and Practice haptic feedback to the lesson attempt and review flows.
 3. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
-4. Expand seed content to one complete beginner skill.
-5. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
+4. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
+5. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
 
 ## iOS Simulator Workflow
 
@@ -229,7 +229,7 @@ If using Computer Use, verify the simulator visually after launch:
 Current verified local slice:
 
 - Signup reaches the authenticated app against local Docker API.
-- Home renders the seeded `Foundations` skill and `First Signals` lesson.
+- Home renders the seeded `Foundations` skill. The seed fixture now contains four beginner lessons and 20 exercises, with `First Signals` kept as the first automation-safe lesson.
 - `task uitest` signs up through the real iOS UI on iPhone 17 / iOS 26.5, opens the seeded lesson, completes all five exercise kinds, submits `completeLesson`, and verifies the completion screen.
 - The first lesson starts from the API.
 - All five seeded exercise kinds progress through the lesson flow.
@@ -245,7 +245,7 @@ Current verified local slice:
 - `DahditAPI` retries auth failures once after a serialized refresh via `TokenRefreshCoordinator`.
 - The forced expired-access-token retry path is covered with a mocked transport in `DahditGraphQL` tests.
 - Lesson completion logs persist to SwiftData during a lesson, failed `completeLesson` submissions show "Saved for sync", and pending completion drafts retry on app start/foreground.
-- `task smoke` verifies local API auth, token rotation/reuse rejection, lesson completion, SRS due reviews, review completion, leaderboard, account deletion, and deleted-token rejection.
+- `task smoke` verifies local API auth, token rotation/reuse rejection, the four-lesson seeded curriculum, lesson completion, SRS due reviews, review completion, leaderboard, account deletion, and deleted-token rejection.
 
 Ask before taking externally visible actions such as TestFlight uploads, production deploys, or account deletion against non-local data.
 

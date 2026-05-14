@@ -1,6 +1,6 @@
 # Dahdit Roadmap
 
-Last updated: 2026-05-13
+Last updated: 2026-05-14
 
 This roadmap turns the technical spec into an execution plan for getting Dahdit from the current scaffold to a working MVP. The priority is a real vertical slice first: seeded lesson content, API auth/progress, iOS lesson playback, local persistence, and repeatable verification.
 
@@ -79,6 +79,7 @@ Recent progress:
 - Added persisted SwiftData audio/profile settings for WPM, Farnsworth WPM, tone Hz, and haptics on/off; lesson playback now applies the selected tone and Practice playback uses the selected timing.
 - Wired first-pass send haptics for lesson `tapTheCode` and `translateToMorse` manual/gesture key input, gated by the persisted haptics setting.
 - Stabilized the iOS UI smoke against delayed system password-save prompts and the home lesson card hit-testing quirk; the full `task uitest` suite is green again on iPhone 17 / iOS 26.5.
+- Expanded seed content into one complete beginner `Foundations` skill with four lessons and 20 exercises. The curriculum now lives in `services/api/scripts/curriculum.ts`, seed uses idempotent upserts, and API tests validate payloads/generated Morse solutions.
 
 Known setup gaps:
 
@@ -103,7 +104,7 @@ Current status: Dahdit has a working local vertical slice, but it is not a compl
 | iOS auth + lesson loop | Mostly done | Verify signed Keychain behavior on simulator/device, add replay telemetry, and polish error states. |
 | Offline lesson progress | Partial | Run the manual network-off/network-on simulator smoke, add skill/lesson content cache, and add mid-lesson resume UI. |
 | Audio + haptics | Partial | Device/simulator audio quality QA, haptic feedback for wrong-answer/Practice states, replay telemetry, and golden audio tests. |
-| Curriculum content | Partial | Expand from the seeded vertical slice to at least one complete beginner skill with multiple lessons. |
+| Curriculum content | Mostly done | One complete beginner skill is seeded and repeatably validated; still needs manual playthrough beyond the first lesson and more authored content before launch. |
 | Practice/SRS | Partial | Add richer review variants, replay tracking, haptics, and overdue-card UX for larger queues. |
 | Web companion | Partial | Add web auth, real API-backed dashboard data, dashboard route protection, and responsive/accessibility QA. |
 | TestFlight readiness | Not done | Signing, Fastlane beta lane, real device archive validation, App Store privacy checks, app icon/assets, and screenshots. |
@@ -113,7 +114,6 @@ MVP blockers before calling this shippable:
 
 - Manual offline completion smoke: start a lesson online, turn network off, finish, see "Saved for sync", relaunch, restore network, confirm progress syncs once.
 - Audio/haptics pass on at least one real device or current simulator runtime.
-- One complete beginner skill seeded and repeatably validated.
 - Web dashboard either finished with auth/data or explicitly scoped out of MVP.
 - Internal TestFlight build produced and installed.
 - Staging API/web environment deployed with non-local secrets.
@@ -381,12 +381,12 @@ Goal: make curriculum authoring safe and repeatable.
 
 Work:
 
-- Add a content fixture format for skills, lessons, and exercises.
-- Validate every exercise through `ExercisePayloadZ`.
-- Generate solutions from the Morse codec where possible.
+- Add a content fixture format for skills, lessons, and exercises. Done with `services/api/scripts/curriculum.ts`.
+- Validate every exercise through `ExercisePayloadZ`. Done with fixture builders and API curriculum tests.
+- Generate solutions from the Morse codec where possible. Done for seed match/send/translate payloads.
 - Add content import script.
 - Add content authoring docs with examples for every exercise kind.
-- Add seed data for at least one complete beginner unit.
+- Add seed data for at least one complete beginner unit. Done with four `Foundations` lessons and 20 exercises.
 
 Acceptance:
 
@@ -514,9 +514,9 @@ Highest priority:
 
 1. Run a manual network-disconnect simulator smoke for the new offline `completeLesson` retry path.
 2. Verify audio quality and haptics on simulator/device for lesson and Practice flows.
-3. Expand seed content to one complete beginner skill.
-4. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
-5. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
+3. Decide whether the web dashboard is in MVP; if yes, add web auth and real API-backed dashboard data.
+4. Verify signed simulator/device Keychain behavior without the DEBUG UserDefaults fallback.
+5. Update GitHub Actions dependencies for the Node 24 runtime transition.
 
 Second priority:
 

@@ -214,6 +214,13 @@ async function main(): Promise<void> {
     token,
   )
 
+  if (tree.skillTree.lessons.length < 4) {
+    throw new Error(
+      `Expected seeded beginner skill to include at least 4 lessons, found ${tree.skillTree.lessons.length}`,
+    )
+  }
+  step(`Loaded seeded curriculum with ${tree.skillTree.lessons.length} lessons`)
+
   const lesson =
     tree.skillTree.lessons.find((candidate) =>
       tree.skillTree.unlockedLessonIds.includes(candidate.id),
